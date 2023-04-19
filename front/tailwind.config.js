@@ -523,6 +523,7 @@ module.exports = {
       vint: '20vh',
       quarantecinq: '45vh',
       soixantecinq: '65vh',
+      soixantedix: '70vh',
       quatrevintcinq: '85vh',
       min: 'min-content',
       max: 'max-content',
@@ -980,6 +981,7 @@ module.exports = {
       '9/12': '75%',
       '10/12': '83.333333%',
       '11/12': '91.666667%',
+      '19/20': '95%',
       full: '100%',
       screen: '100vw',
       min: 'min-content',
@@ -1002,6 +1004,8 @@ module.exports = {
       50: '50',
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-animatecss')
+  ],
 }
 

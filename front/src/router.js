@@ -14,6 +14,7 @@ const routes = [
     },
     {
         path: '/home',
+        component: () => import('@/Structure.vue'),
         redirect: "/check",
         name: '主页',
         meta: {
@@ -38,7 +39,7 @@ const routes = [
                 name: '问卷',
                 meta: {
                     isLogin: false,
-                    title: '肺癌风险预测问卷',
+                    title: '问卷内容',
                     index: 2
                 },
             }

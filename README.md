@@ -42,7 +42,7 @@
         <td>年吸烟量</td><td><15包</td><td>15-30包</td><td>>30包</td>
     </tr>
     <tr>
-        <td>每天吸烟量</td><td><1支</td><td>>=1支</td>
+        <td>每天吸烟量</td><td><1包</td><td>>=1包</td>
     </tr>
     <tr>
         <td  colspan="6"><h3><b># 指标信息</b></h3></td>
