@@ -12,7 +12,7 @@
           <div class="text-lg font-bold">姓名:</div>
           <input
             class="col-span-2 pl-2 font-bold"
-            v-model="name"
+            v-model="name" type="text"
             placeholder="请输入姓名"
           />
         </div>
@@ -20,7 +20,7 @@
           <div class="text-lg font-bold">电话:</div>
           <input
             class="col-span-2 pl-2 font-bold"
-            v-model="phone"
+            v-model="phone" type="number"
             placeholder="请输入电话"
           />
         </div>

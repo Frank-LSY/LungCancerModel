@@ -3,7 +3,10 @@ import { createStore } from 'vuex';
 export default createStore({
     state: {
         name: "",
-        phone: ""
+        phone: "",
+        answers: {},
+        height: "",
+        weight: ""
     },
     getters: {
         getName: (state) => {
@@ -11,7 +14,16 @@ export default createStore({
         },
         getPhone: (state) => {
             return state.phone
-        }
+        },
+        getAnswers: (state) => {
+            return state.answers
+        },
+        getHeight: (state) => {
+            return state.height
+        },
+        getWeight: (state) => {
+            return state.weight
+        },
     },
     mutations: {
         changeName: (state, value) => {
@@ -19,6 +31,15 @@ export default createStore({
         },
         changePhone: (state, value) => {
             return state.phone = value
+        },
+        changeAnswers: (state, value) => {
+            return state.answers[value.name] = value.val
+        },
+        changeHeight: (state,value) => {
+            return state.height = value
+        },
+        changeWeight: (state,value) => {
+            return state.weight = value
         }
     },
     actions: {
