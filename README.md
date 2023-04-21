@@ -10,16 +10,19 @@
         <td  colspan="6"><h3><b># 基本信息</b></h3></td>
     </tr>
     <tr>
+        <td>身高</td>
+    </tr>
+    <tr>
+        <td>体重</td>
+    </tr>
+    <tr>
         <td>年龄</td><td><50</td><td>50-59</td><td>60-69</td><td>>=70</td>
     </tr>
     <tr>
         <td>性别</td><td>男</td><td>女</td>
     </tr>
     <tr>
-        <td>身高</td>
-    </tr>
-    <tr>
-        <td>体重</td>
+        <td>体力活动水平</td><td>基本不活动</td><td>少量活动</td><td>大量活动</td>
     </tr>
     <tr>
         <td>慢阻肺(COPD)</td><td>有</td><td>无</td><td colspan="2">肺功能受限</td>
@@ -64,4 +67,3 @@
         <td>C-反应蛋白(CRP mg/L)</td><td>0-1</td><td>1.1-3</td><td>3.1-10</td><td>>10</td>
     </tr>
 </table>
-

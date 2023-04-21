@@ -29,12 +29,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("@assets", resolve("src/assets"))
       .set("@components", resolve("src/components"))
-      .set("@pages", resolve("src/pages"))
-      .set("@page", resolve("src/pages/page"))
-      .set("@charts", resolve("src/components/charts"))
-      .set("@structure", resolve("src/components/structure"))
-      .set("@monitor", resolve("src/components/monitor"))
-      .set("@homepage", resolve("src/components/homepage"))
+      .set("@questions", resolve("src/questions"))
       .set("@utils", resolve("src/assets/utils"))
       .set("@api", resolve("src/api"))
     config.module

@@ -13,7 +13,7 @@
       <router-view
         v-slot="{ Component }"
         id="main"
-        class=" pt-2 h-soixantedix overflow-auto"
+        class="h-soixantedix overflow-auto"
       >
         <!-- 切页面时导航栏不动 -->
         <keep-alive>
@@ -47,7 +47,7 @@ onBeforeRouteUpdate((to, from) => {
 .slide-up-enter-active,
 .slide-up-leave-active {
   will-change: transform;
-  transition: all 500ms;
+  transition: all 1500ms;
   position: absolute;
 }
 .slide-down-enter-from {
