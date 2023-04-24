@@ -22,21 +22,21 @@
       <div class="col-span-3">
         <div class="w-full grid grid-cols-8" v-for="i in 2" :key="i">
           <button
-            v-for="j in 8"
+            v-for="j in 7"
             :key="j"
             style="color: rgba(0, 78, 162, 1)"
             :class="[
               'font-bold py-1 border-2 border-gray-600',
-              questionColor((i - 1) * 8 + j - 2),
+              questionColor((i - 1) * 7 + j - 2),
             ]"
-            @click="num = (i - 1) * 8 + j - 2"
-            :disabled="condition((i - 1) * 8 + j - 2)"
+            @click="num = (i - 1) * 7 + j - 2"
+            :disabled="condition((i - 1) * 7 + j - 2)"
           >
-            {{ (i - 1) * 8 + j }}
+            {{ (i - 1) * 7 + j }}
           </button>
         </div>
       </div>
-      <div class="font-bold">
+      <div class="font-bold col-span-1">
         <div class="flex flex-wrap justify-evenly">
           <div class="px-2 m-1 bg-gray-300"></div>
           <div>未填写</div>
@@ -67,14 +67,14 @@
     </div>
     <div class="h-quarantecinq overflow-y-auto" v-if="num > -2">
       <question-choose
-        v-if="num >= 0 && num != 12"
+        v-if="num >= 0 && num != 10"
         :title="q.question[num]['title']"
         :size="q.question[num]['choices'].length"
         :choices="q.question[num]['choices']"
         :no="num"
       ></question-choose>
       <question-choose
-        v-if="num === 12"
+        v-if="num === 10"
         :title="q.question[num]['title']"
         :size="
           store.getters.getAnswers[1] === 1
@@ -102,14 +102,14 @@
         上一题
       </div>
       <div
-        v-if="num !== 14"
+        v-if="num !== q.question.length - 1"
         class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
         @click="nextQuestion"
       >
         下一题
       </div>
       <div
-        v-if="num === 14"
+        v-if="num === q.question.length - 1"
         class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
         @click="submit"
       >
@@ -126,7 +126,7 @@ import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionChoose from "@/questions/QuestionChoose.vue";
 import QuestionFill from "@/questions/QuestionFill.vue";
-import q from "@assets/json/questions.json";
+import q from "@assets/json/questions14.json";
 
 const store = useStore();
 const router = useRouter();
@@ -137,11 +137,11 @@ const goBack = () => {
 
 // 方块染色
 const questionColor = (no) => {
-  if ((no === 7 || no === 8) && store.getters.getAnswers[6] === 1) {
+  if ((no === 5 || no === 6) && store.getters.getAnswers[4] === 1) {
     return "bg-sky-500";
   } else if (
-    no === 8 &&
-    (store.getters.getAnswers[7] === 2 || store.getters.getAnswers[7] === 3)
+    no === 6 &&
+    (store.getters.getAnswers[5] === 2 || store.getters.getAnswers[5] === 3)
   ) {
     return "bg-sky-500";
   } else if (store.getters.getAnswers.hasOwnProperty(no)) {
@@ -215,4 +215,8 @@ const condition = (no) => {
   //   }
   // }
 };
+
+const submit = () => {
+  router.push('result')
+}
 </script>

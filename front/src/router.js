@@ -42,6 +42,16 @@ const routes = [
                     title: '问卷内容',
                     index: 2
                 },
+            },
+            {
+                path: '/result',
+                component: () => import('@components/Result.vue'),
+                name: '结果',
+                meta: {
+                    isLogin: false,
+                    title: '问卷结果',
+                    index: 2
+                },
             }
         ]
     },

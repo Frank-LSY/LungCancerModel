@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="color: rgba(0, 78, 162, 1)" class="my-2 py-1 text-xl font-bold">
-      {{ props.title }}
+      {{ (props.no+2)+". "+props.title }}
     </div>
     <div class="flex flex-wrap justify-center">
       <div
