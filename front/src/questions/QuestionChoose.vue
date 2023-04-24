@@ -22,6 +22,7 @@
 <script setup>
 import { defineProps } from "vue";
 import { useStore } from "vuex";
+// import { watch } from "vue";
 
 const store = useStore();
 
@@ -39,8 +40,17 @@ const changeAnswers = (choice) => {
 };
 
 const setAnswer = (choice) => {
-  if (store.getters.getAnswers[props.no]===choice ) {
+  if (store.getters.getAnswers[props.no] === choice) {
     return "bg-green-400";
   }
 };
+
+
+// watch(
+//   () => props.no,
+//   () => {
+//     console.log(store.getters.getAnswers[1] === 1);
+//     console.log(props.choices)
+//   }
+// );
 </script>
