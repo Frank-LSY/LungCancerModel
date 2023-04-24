@@ -70,14 +70,14 @@
 
 
 ## 问题
-
-- What is the MJ Group Integrative Risk Assessment Model? Any codes or descriptions?
-- If not, can we just use the Risk Score to predict the Lung Cancer risk? However, it seems to be a very simple exponetial model.
-
-- 什么是MJ Group Integrative Risk Assessment Model(MMIRA)? 有没有更详细的描述及代码？
-- 如果没有，我们能不能用文中提到的Risk Score来预测肺癌风险？看起来是一个非常简单的打分模型。打分模型似乎剔除了 ***体力活动(physical activity)*** 和 ***慢阻肺(COPD)*** 两项指标，而且 ***胆红素(Bilirubin)*** 的分数始终是0。
+- 咱们做这个是为了指导病人，客户，是否值得继续做肺癌筛查。
 - 因为文中用到的16项指标检查起来相对简单，且易获得，因此，我们要做的是不是要给出一个风险值，进而建议是否继续做肺癌筛查？在文章中确实提到了，如果五年癌症风险大于5%，则建议后续筛查。
 - 通过对用户持续的监测这些指标，在有显著变化时，给出指导性意见，值得去继续做肺癌增强CT筛查。
+- What is the MJ Group Integrative Risk Assessment Model? Any codes or descriptions?
+- If not, can we just use the Risk Score to predict the Lung Cancer risk? However, it seems to be a very simple exponetial model.
+- 什么是MJ Group Integrative Risk Assessment Model(MMIRA)? 有没有更详细的描述及代码？
+- 如果没有，我们能不能用文中提到的Risk Score来预测肺癌风险？看起来是一个非常简单的打分模型。打分模型似乎剔除了 ***体力活动(physical activity)*** 和 ***慢阻肺(COPD)*** 两项指标，而且 ***胆红素(Bilirubin)*** 的分数始终是0。
+
 - 关于打分表的计分方法，空白表示不考虑该项！
 - 如何量化，never smokers, light smokers 和 heavy smokers？
 ![吸烟](./Smoker.png)
