@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="color: rgba(0, 78, 162, 1)" class="my-2 py-1 text-xl font-bold">
-      {{ (props.no+2)+". "+props.title }}
+      {{ props.no + 2 + ". " + props.title }}
     </div>
     <div class="flex flex-wrap justify-center">
       <div
@@ -36,6 +36,22 @@ const props = defineProps({
 const changeAnswers = (choice) => {
   // console.log('改！')
   store.commit("changeAnswers", { name: props.no, val: choice });
+  if (props.no === 4) {
+    if (choice === 1) {
+      store.commit("changeAnswers", { name: 5, val: 0 });
+      store.commit("changeAnswers", { name: 6, val: 0 });
+    } else {
+      store.commit("deleteAnswers", 5);
+      store.commit("deleteAnswers", 6);
+    }
+  }
+  if (props.no === 5) {
+    if (choice === 1 || choice === 2) {
+      store.commit("changeAnswers", { name: 6, val: 0 });
+    } else {
+      store.commit("deleteAnswers", 6);
+    }
+  }
   console.log(store.getters.getAnswers);
 };
 
@@ -44,7 +60,6 @@ const setAnswer = (choice) => {
     return "bg-green-400";
   }
 };
-
 
 // watch(
 //   () => props.no,

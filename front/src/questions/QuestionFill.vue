@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap justify-center">
-    <div style="color: rgba(0, 78, 162, 1)" class="w-2/3 my-2 text-xl font-bold">
-      1. 身高体重信息
+    <div style="color: rgba(0, 78, 162, 1)" class="w-2/3 my-2 py-1 text-xl font-bold">
+      1. 您的身高体重
     </div>
     <div class="w-2/3 grid grid-cols-5 text-xl font-bold pt-16 pb-5">
       <div class="col-span-2">您的身高(cm):</div>

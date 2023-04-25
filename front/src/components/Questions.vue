@@ -109,8 +109,10 @@
         下一题
       </div>
       <div
-        v-if="num === q.question.length - 1"
-        class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
+        v-if="
+          Object.keys(store.getters.getAnswers).length === q.question.length + 1
+        "
+        class="border-4 border-gray-500 rounded px-3 py-2 bg-green-300 cursor-pointer"
         @click="submit"
       >
         完成
@@ -141,7 +143,7 @@ const questionColor = (no) => {
     return "bg-sky-500";
   } else if (
     no === 6 &&
-    (store.getters.getAnswers[5] === 2 || store.getters.getAnswers[5] === 3)
+    (store.getters.getAnswers[5] === 1 || store.getters.getAnswers[5] === 2)
   ) {
     return "bg-sky-500";
   } else if (store.getters.getAnswers.hasOwnProperty(no)) {
@@ -162,61 +164,46 @@ const nextQuestion = () => {
 
 //判断有的题填不填
 const condition = (no) => {
-  if (no === 7) {
+  if (no === 5) {
+    // 如果第六题选不吸烟
     if (
-      store.getters.getAnswers[6] !== 2 ||
-      store.getters.getAnswers[6] !== 3
+      store.getters.getAnswers[4] !== 2 &&
+      store.getters.getAnswers[4] !== 3
     ) {
       return true;
-    } else {
+    }
+    // 如果第六题吸烟，则第七题权限放开
+    else {
       return false;
     }
-  } else if (no === 8) {
+  } else if (no === 6) {
+    // 如果第六题选不吸烟
     if (
-      store.getters.getAnswers[6] !== 2 ||
-      store.getters.getAnswers[6] !== 3
+      store.getters.getAnswers[4] !== 2 &&
+      store.getters.getAnswers[4] !== 3
     ) {
       return true;
-    } else {
-      return false;
+    }
+    // 如果第六题吸烟
+    else {
+      // 如果第七题吸烟多
+      if (store.getters.getAnswers[5] === 3) {
+        return false;
+      } else {
+        return true;
+      }
     }
   } else {
     return false;
   }
-  // if (no === 7) {
-  //   // 判断第9题
-  //   if (
-  //     store.getters.getAnswers[6] !== 2 ||
-  //     store.getters.getAnswers[6] !== 3
-  //   ) {
-  //     //如果第8题抽烟
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // } else if (no === 8) {
-  //   //判断第10题
-  //   if (
-  //     store.getters.getAnswers[6] !== 2 ||
-  //     store.getters.getAnswers[6] !== 3
-  //   ) {
-  //     return true;
-  //   } else {
-  //     //如果第8题抽烟
-  //     if (
-  //       store.getters.getAnswers[7] !== 2 ||
-  //       store.getters.getAnswers[7] !== 3
-  //     ) {
-  //       // 如果第七题抽的多
-  //       return false;
-  //     } else {
-  //       return true;
-  //     }
-  //   }
-  // }
 };
 
 const submit = () => {
-  router.push('result')
-}
+  // console.log(Object.keys(store.getters.getAnswers).length)
+  if (Object.keys(store.getters.getAnswers).length === q.question.length + 1) {
+    router.push("result");
+  } else {
+    alert("请完成全部问题！");
+  }
+};
 </script>

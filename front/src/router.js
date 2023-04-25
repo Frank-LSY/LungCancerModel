@@ -50,7 +50,7 @@ const routes = [
                 meta: {
                     isLogin: false,
                     title: '问卷结果',
-                    index: 2
+                    index: 3
                 },
             }
         ]

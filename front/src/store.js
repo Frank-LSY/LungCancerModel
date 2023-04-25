@@ -35,6 +35,9 @@ export default createStore({
         changeAnswers: (state, value) => {
             return state.answers[value.name] = value.val
         },
+        deleteAnswers: (state,value) => {
+            return delete state.answers[value]
+        },
         changeHeight: (state,value) => {
             return state.height = value
         },
