@@ -2,13 +2,18 @@ import { createStore } from 'vuex';
 
 export default createStore({
     state: {
-        name: "",
-        phone: "",
-        answers: {},
-        height: "",
-        weight: ""
+        num: -2, //第几题
+        name: "", //姓名
+        phone: "", //电话
+        answers: {}, //答案
+        height: "", //身高
+        weight: "", //体重
+        bmi: "" //bmi
     },
     getters: {
+        getNum: (state) => {
+            return state.num
+        },
         getName: (state) => {
             return state.name
         },
@@ -24,8 +29,14 @@ export default createStore({
         getWeight: (state) => {
             return state.weight
         },
+        getBmi: (state) =>{
+            return state.bmi
+        }
     },
     mutations: {
+        changeNum: (state,value) => {
+            return state.num = value
+        },
         changeName: (state, value) => {
             return state.name = value
         },
@@ -43,6 +54,9 @@ export default createStore({
         },
         changeWeight: (state,value) => {
             return state.weight = value
+        },
+        changeBmi: (state,value)=> {
+            return state.bmi = value
         }
     },
     actions: {

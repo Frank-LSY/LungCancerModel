@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-soixantedix bg-sky-100">
+  <div class="w-full h-soixantedix bg-sky-100 bg-opacity-70">
     <div class="flex flex-wrap justify-between w-full h-cinq text-right">
       <div class="text-lg font-bold ml-2" @click="goBack()">返回</div>
       <div class="flex flex-wrap justify-center">
@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref} from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
@@ -154,12 +154,33 @@ const questionColor = (no) => {
 };
 
 // 上一题下一题
-const num = ref(-1);
+const num = ref(store.getters.getNum);
 const prevQuestion = () => {
-  num.value -= 1;
+  // console.log(num.value);
+  if (num.value === 7) {
+    if (store.getters.getAnswers[4] === 1) {
+      num.value -= 3;
+    } else if (
+      store.getters.getAnswers[5] === 1 ||
+      store.getters.getAnswers[5] === 2
+    ) {
+      num.value -= 2;
+    }
+  } else {
+    num.value -= 1;
+  }
 };
 const nextQuestion = () => {
-  num.value += 1;
+  if (num.value === 4 && store.getters.getAnswers[4] === 1) {
+    num.value += 3;
+  } else if (
+    num.value === 5 &&
+    (store.getters.getAnswers[5] === 1 || store.getters.getAnswers[5] === 2)
+  ) {
+    num.value += 2;
+  } else {
+    num.value += 1;
+  }
 };
 
 //判断有的题填不填

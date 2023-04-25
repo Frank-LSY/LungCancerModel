@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-wrap justify-center">
-    <div style="color: rgba(0, 78, 162, 1)" class="w-2/3 my-2 py-1 text-xl font-bold">
+    <div
+      style="color: rgba(0, 78, 162, 1)"
+      class="w-2/3 my-2 py-1 text-xl font-bold"
+    >
       1. 您的身高体重
     </div>
     <div class="w-2/3 grid grid-cols-5 text-xl font-bold pt-16 pb-5">
@@ -41,6 +44,7 @@ const weight = ref(store.state.weight);
 
 const calculateBMI = () => {
   var bmi = Math.round((weight.value / (height.value / 100) ** 2) * 100) / 100;
+  store.commit("changeBmi", bmi);
   return bmi;
 };
 
