@@ -30,33 +30,34 @@ const props = defineProps({
   size: Number, //问题有几个选项
   title: String, //题目
   choices: Array, //选项
+  id: String, //问题id
   no: Number, //第几题
 });
 
 const changeAnswers = (choice) => {
   // console.log('改！')
-  store.commit("changeAnswers", { name: props.no, val: choice });
+  store.commit("changeAnswers", { name: props.id, val: choice });
   if (props.no === 4) {
     if (choice === 1) {
-      store.commit("changeAnswers", { name: 5, val: 0 });
-      store.commit("changeAnswers", { name: 6, val: 0 });
+      store.commit("changeAnswers", { name: "packYear", val: 0 });
+      store.commit("changeAnswers", { name: "smokingIntensity", val: 0 });
     } else {
-      store.commit("deleteAnswers", 5);
-      store.commit("deleteAnswers", 6);
+      store.commit("deleteAnswers", "packYear");
+      store.commit("deleteAnswers", "smokingIntensity");
     }
   }
   if (props.no === 5) {
     if (choice === 1 || choice === 2) {
       store.commit("changeAnswers", { name: 6, val: 0 });
     } else {
-      store.commit("deleteAnswers", 6);
+      store.commit("deleteAnswers", "smokingIntensity");
     }
   }
-  console.log(store.getters.getAnswers);
+  // console.log(store.getters.getAnswers);
 };
 
 const setAnswer = (choice) => {
-  if (store.getters.getAnswers[props.no] === choice) {
+  if (store.getters.getAnswers[props.id] === choice) {
     return "bg-green-400";
   }
 };

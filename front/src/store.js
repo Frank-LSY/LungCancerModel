@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
     state: {
         num: -2, //第几题
-        name: "", //姓名
+        name: "拖拉机没有司机", //姓名
         phone: "", //电话
         answers: {}, //答案
         height: "", //身高

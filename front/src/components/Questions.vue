@@ -72,6 +72,7 @@
         :size="q.question[num]['choices'].length"
         :choices="q.question[num]['choices']"
         :no="num"
+        :id="q.question[num]['id']"
       ></question-choose>
       <question-choose
         v-if="num === 10"
@@ -87,6 +88,7 @@
             : q.question[num]['choices']['female']
         "
         :no="num"
+        :id="q.question[num]['id']"
       ></question-choose>
       <question-fill v-if="num == -1"></question-fill>
     </div>
@@ -122,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref} from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
@@ -139,14 +141,22 @@ const goBack = () => {
 
 // 方块染色
 const questionColor = (no) => {
-  if ((no === 5 || no === 6) && store.getters.getAnswers[4] === 1) {
+  // console.log(no)
+  if ((no === 5 || no === 6) && store.getters.getAnswers["smoking"] === 1) {
     return "bg-sky-500";
   } else if (
     no === 6 &&
-    (store.getters.getAnswers[5] === 1 || store.getters.getAnswers[5] === 2)
+    (store.getters.getAnswers["packYear"] === 1 ||
+      store.getters.getAnswers["packYear"] === 2)
   ) {
     return "bg-sky-500";
-  } else if (store.getters.getAnswers.hasOwnProperty(no)) {
+  } else if (no === -1) {
+    if (store.getters.getAnswers.hasOwnProperty("BMI")){
+      return "bg-green-400"
+    } else {
+      return "bg-gray-300";
+    }
+  } else if (store.getters.getAnswers.hasOwnProperty(q.question[no]["id"])) {
     return "bg-green-400";
   } else {
     return "bg-gray-300";
@@ -158,11 +168,11 @@ const num = ref(store.getters.getNum);
 const prevQuestion = () => {
   // console.log(num.value);
   if (num.value === 7) {
-    if (store.getters.getAnswers[4] === 1) {
+    if (store.getters.getAnswers["smoking"] === 1) {
       num.value -= 3;
     } else if (
-      store.getters.getAnswers[5] === 1 ||
-      store.getters.getAnswers[5] === 2
+      store.getters.getAnswers["packYear"] === 1 ||
+      store.getters.getAnswers["packYear"] === 2
     ) {
       num.value -= 2;
     }
@@ -171,11 +181,12 @@ const prevQuestion = () => {
   }
 };
 const nextQuestion = () => {
-  if (num.value === 4 && store.getters.getAnswers[4] === 1) {
+  if (num.value === 4 && store.getters.getAnswers["smoking"] === 1) {
     num.value += 3;
   } else if (
     num.value === 5 &&
-    (store.getters.getAnswers[5] === 1 || store.getters.getAnswers[5] === 2)
+    (store.getters.getAnswers["packYear"] === 1 ||
+      store.getters.getAnswers["packYear"] === 2)
   ) {
     num.value += 2;
   } else {
@@ -188,8 +199,8 @@ const condition = (no) => {
   if (no === 5) {
     // 如果第六题选不吸烟
     if (
-      store.getters.getAnswers[4] !== 2 &&
-      store.getters.getAnswers[4] !== 3
+      store.getters.getAnswers["smoking"] !== 2 &&
+      store.getters.getAnswers["smoking"] !== 3
     ) {
       return true;
     }
@@ -200,15 +211,15 @@ const condition = (no) => {
   } else if (no === 6) {
     // 如果第六题选不吸烟
     if (
-      store.getters.getAnswers[4] !== 2 &&
-      store.getters.getAnswers[4] !== 3
+      store.getters.getAnswers["smoking"] !== 2 &&
+      store.getters.getAnswers["smoking"] !== 3
     ) {
       return true;
     }
     // 如果第六题吸烟
     else {
       // 如果第七题吸烟多
-      if (store.getters.getAnswers[5] === 3) {
+      if (store.getters.getAnswers["packYear"] === 3) {
         return false;
       } else {
         return true;

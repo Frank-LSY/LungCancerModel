@@ -69,7 +69,7 @@ watch(
     } else {
       choice = 3;
     }
-    store.commit("changeAnswers", { name: -1, val: choice });
+    store.commit("changeAnswers", { name: "BMI", val: choice });
   }
 );
 </script>

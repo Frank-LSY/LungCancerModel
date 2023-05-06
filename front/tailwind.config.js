@@ -523,6 +523,7 @@ module.exports = {
       douze:'12vh',
       cinquante: '15vh',
       vint: '20vh',
+      trente: "30vh",
       quarantecinq: '45vh',
       soixantecinq: '65vh',
       soixantedix: '70vh',
@@ -548,6 +549,7 @@ module.exports = {
       '1/4': '25%',
       '2/4': '50%',
       '3/4': '75%',
+      '1/6': "16.666667%",
       full: '100%',
     }),
     invert: {
@@ -672,6 +674,7 @@ module.exports = {
     minWidth: {
       0: '0px',
       full: '100%',
+      '1/6': "16.666667%",
       '1/5': '20%',
       '1/4': '25%',
       '1/3': '33.3%',
@@ -952,6 +955,7 @@ module.exports = {
       '1/4': '25%',
       '2/4': '50%',
       '3/4': '75%',
+      '1/6': "16.666667%",
       full: '100%',
     }),
     width: ({ theme }) => ({

@@ -59,7 +59,8 @@
           {{ i + 2 + ". " + item.title + showInfo(i) }}
           <button
             class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600"
-            @click="modify(i)" :disabled="disable(i)"
+            @click="modify(i)"
+            :disabled="disable(i)"
           >
             修改
           </button>
@@ -106,17 +107,21 @@
     </div>
     <button
       class="my-2 w-2/3 rounded text-lg font-bold border-4 border-gray-400 bg-red-300 animatecss animatecss-infinite animatecss-fast animatecss-pulse"
+      @click="showResult()"
     >
       查看预测结果
     </button>
+    <res-dialog @click="showDialog = false" v-if="showDialog"></res-dialog>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import q from "@assets/json/questions14.json";
+import ResDialog from "@components/ResDialog.vue";
 
 const router = useRouter();
 const store = useStore();
@@ -128,14 +133,14 @@ const modify = (no) => {
 
 // 有的问题不用填，上色
 const colorQuestion = (no) => {
-  if (store.getters.getAnswers[no] === 0) {
+  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
     return "text-gray-400";
   }
 };
 
 //有的问题不用填，标注
 const showInfo = (no) => {
-  if (store.getters.getAnswers[no] === 0) {
+  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
     return " (无需填写)";
   } else {
     return "";
@@ -143,7 +148,7 @@ const showInfo = (no) => {
 };
 // 有的问题不用填，不能点
 const disable = (no) => {
-  if (store.getters.getAnswers[no] === 0) {
+  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
     return true;
   } else {
     return false;
@@ -154,10 +159,15 @@ const disable = (no) => {
 const colorChoice = (no, choice) => {
   // console.log(no,choice)
   // console.log(store.getters.getAnswers)
-  if (store.getters.getAnswers[no] === choice + 1) {
+  if (store.getters.getAnswers[q.question[no]["id"]] === choice + 1) {
     return "bg-green-400";
   } else {
     return;
   }
+};
+
+const showDialog = ref(false);
+const showResult = () => {
+  showDialog.value = true;
 };
 </script>
