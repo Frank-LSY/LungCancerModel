@@ -48,7 +48,7 @@ const changeAnswers = (choice) => {
   }
   if (props.no === 5) {
     if (choice === 1 || choice === 2) {
-      store.commit("changeAnswers", { name: 6, val: 0 });
+      store.commit("changeAnswers", { name: "smokingIntensity", val: 0 });
     } else {
       store.commit("deleteAnswers", "smokingIntensity");
     }

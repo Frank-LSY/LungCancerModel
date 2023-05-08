@@ -111,7 +111,7 @@
     >
       查看预测结果
     </button>
-    <res-dialog @click="showDialog = false" v-if="showDialog"></res-dialog>
+    <res-dialog @click="showDialog = false" v-if="showDialog" class=" animatecss animatecss-fadeIn"></res-dialog>
   </div>
 </template>
 

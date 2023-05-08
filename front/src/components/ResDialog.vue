@@ -3,7 +3,7 @@
     <div
       class="absolute w-2/3 left-1/6 top-32 h-trente bg-cyan-100 bg-opacity-90 rounded-xl"
     >
-      <div class="w-full mt-5 flex flex-wrap content-center">
+      <div class="w-full h-dix flex flex-wrap content-center">
         <div class="w-full flex flex-wrap justify-center">
           <Avatar
             :size="25"
@@ -19,10 +19,10 @@
           </div>
         </div>
       </div>
-      <div :class="[color, 'text-6xl font-extrabold mt-4']">
+      <div :class="[color, 'text-6xl font-extrabold h-dix']">
         {{ prob }}
       </div>
-      <div class="font-bold mt-4">
+      <div class="font-bold h-dix">
         <div>您是 {{ smokeC }}</div>
         <div>
           您的肺癌风险 <span :class="color">{{ risk }}</span>
@@ -74,13 +74,13 @@ const calScore = () => {
     // console.log(id, answers[id]);
     score.value += c2s[smoke.value][id][answers[id]];
   }
-  console.log(score.value);
+//   console.log(score.value);
   prob.value = s2p[smoke.value][score.value];
 };
 
 // 上色
 const colorPercent = () => {
-  console.log(prob.value.split("%"));
+//   console.log(prob.value.split("%"));
   if (prob.value.split("%")[0] < 5) {
     risk.value = "低";
     color.value = "text-green-500";
