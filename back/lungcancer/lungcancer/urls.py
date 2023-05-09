@@ -21,5 +21,10 @@ from . import views, testdb
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello/", views.hello),
-    path("testdb/", testdb.testdb),
+    # 插入问题和选项
+    path("insert/",testdb.insert),
+    # 插入选项到分数
+    path("choice2score/",testdb.choice2score),
+    # 插入分数概率
+    path("score2prob/",testdb.score2prob)
 ]

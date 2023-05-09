@@ -1,34 +1,57 @@
+import json
+
 from django.http import HttpResponse
- 
-from TestModel.models import Test
- 
+
+from polls.models import Question
+from polls.models import Choice
+from polls.models import Score
+from polls.models import Probability
+
 # 数据库操作
-def testdb(request):
-    # 初始化
-    response = ""
-    response1 = ""
-    
-    
-    # 通过objects这个模型管理器的all()获得所有数据行，相当于SQL中的SELECT * FROM
-    list = Test.objects.all()
-        
-    # filter相当于SQL中的WHERE，可设置条件过滤结果
-    response2 = Test.objects.filter(id=1) 
-    
-    # 获取单个对象
-    response3 = Test.objects.get(id=1) 
-    
-    # 限制返回的数据 相当于 SQL 中的 OFFSET 0 LIMIT 2;
-    Test.objects.order_by('name')[0:2]
-    
-    #数据排序
-    Test.objects.order_by("id")
-    
-    # 上面的方法可以连锁使用
-    Test.objects.filter(name="runoob").order_by("id")
-    
-    # 输出所有数据
-    for var in list:
-        response1 += var.name + " "
-    response = response1
-    return HttpResponse("<p>" + response + "</p>")
+
+
+# 插入问题和选项
+def insert(request):
+    with open('./json/questions14.json', 'r', encoding="utf-8") as f:
+        data = f.read()
+        json_questions = json.loads(data)
+        for question in json_questions['question']:
+            question_handle = Question(
+                title=question['title'], questionid=question['id'])
+            question_handle.save()
+            for choice in question['choices']:
+                choice_handle = Choice(choice=choice)
+                choice_handle.questionid = question_handle
+                choice_handle.save()
+        return HttpResponse("问题及选项插入成功！")
+
+
+# 插入选项到分数
+def choice2score(request):
+    # return HttpResponse(Question.objects.get(questionid="BMI"))
+    # return HttpResponse(Question(
+    #             title='1', questionid='2'))
+    with open('./json/choice2score.json','r', encoding='utf-8') as f:
+        data = f.read()
+        json_data = json.loads(data)
+        for k,v in json_data.items():
+            for key,value in v.items():
+                print(key)
+                question_handle = Question.objects.get(questionid=key)
+                for c,s in value.items():
+                    score_handle = Score(smoke=k,choice=c,score=s)
+                    score_handle.questionid = question_handle
+                    score_handle.save()
+        return HttpResponse("选项分数插入成功！")
+
+# 插入分数到概率
+def score2prob(request):
+    with open('./json/score2Prob10.json', 'r', encoding="utf-8") as f:
+        data = f.read()
+        json_data = json.loads(data)
+        for k, v in json_data.items():
+            for key, value in v.items():
+                prob_handle = Probability(
+                    year='ten', smoke=k, point=key, probability=value)
+                prob_handle.save()
+        return HttpResponse("分数概率插入成功！")
