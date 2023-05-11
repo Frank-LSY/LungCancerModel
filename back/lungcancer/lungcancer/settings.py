@@ -37,8 +37,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
+    'drf_yasg',
     'polls'
 ]
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'lungcancer.utils.exception.custom_exception_handler',
+    'DEFAULT_RENDERER_CLASSES': ['lungcancer.utils.rendererresponse.customrenderer'],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

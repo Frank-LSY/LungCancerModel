@@ -22,7 +22,7 @@ class Question(models.Model):
     # 问题名
     title = models.CharField(max_length=40)
     # 问题id
-    questionid = models.CharField(max_length=40, unique=True)
+    questionid = models.CharField(max_length=40, unique=True, primary_key=True)
 
     # def set_choices(self, x):
     #     self.choices = json.dumps(x)
@@ -35,7 +35,7 @@ class Question(models.Model):
 class Choice(models.Model):
     # 问题id
     questionid = models.ForeignKey(
-        Question, on_delete=models.CASCADE, to_field='questionid')
+        Question, on_delete=models.CASCADE, related_name='choice', to_field='questionid')
     # 选项
     choice = models.CharField(max_length=200)
 

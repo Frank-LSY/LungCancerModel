@@ -36,7 +36,7 @@ def choice2score(request):
         json_data = json.loads(data)
         for k,v in json_data.items():
             for key,value in v.items():
-                print(key)
+                # print(key)
                 question_handle = Question.objects.get(questionid=key)
                 for c,s in value.items():
                     score_handle = Score(smoke=k,choice=c,score=s)
