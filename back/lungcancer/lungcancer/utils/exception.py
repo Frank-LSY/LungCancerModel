@@ -7,7 +7,7 @@ from rest_framework import status
 # 将仅针对由引发的异常生成的响应调用异常处理程序。它不会用于视图直接返回的任何响应
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-    print(response)
+    # print(response)
     # 这个循环是取第一个错误的提示用于渲染
     for index, value in enumerate(response.data):
         if index == 0:

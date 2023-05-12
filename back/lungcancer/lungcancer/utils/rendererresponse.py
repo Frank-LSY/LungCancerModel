@@ -9,19 +9,18 @@ from rest_framework import status
 class customrenderer(JSONRenderer):
     # 重构render方法
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        
+        print('data:', data)
         if renderer_context:
             if isinstance(data, dict):
                 msg = data.pop('message', 'success')
                 code = data.pop('code', status.HTTP_200_OK)
-                data = data.pop('data',[])
+                # data = data.pop('data',[])
             else:
                 msg = 'success'
                 code = status.HTTP_200_OK
-                state = 1
 
             # 重新构建返回的JSON字典
-            print(data)
+            
             # for key in data:
                 
             #     # 判断是否有自定义的异常的字段
