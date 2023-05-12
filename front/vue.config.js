@@ -8,18 +8,18 @@ const resolve = dir => {
 
 module.exports = {
   lintOnSave: false,
-  publicPath: '/lungCancer',
+  publicPath: '/lungCancer/',
   outputDir: 'lung',
   devServer: {
     port: 8088,
     open: false,
     proxy: {
-      '/api': {
-        target: 'http://localhost:9001',
+      '/polls': {
+        target: 'http://127.0.0.1:9000',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/api': ''
+          '^/polls': '/polls'
         }
       },
     }

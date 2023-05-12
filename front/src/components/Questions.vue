@@ -124,13 +124,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionChoose from "@/questions/QuestionChoose.vue";
 import QuestionFill from "@/questions/QuestionFill.vue";
 import q from "@assets/json/questions14.json";
+import { errorMessage } from "@/assets/js/common";
+import questionAPI from "@/api/question";
 
 const store = useStore();
 const router = useRouter();
@@ -138,6 +140,21 @@ const router = useRouter();
 const goBack = () => {
   router.push("check");
 };
+
+const getQuestion = () => {
+  questionAPI
+    .getAllQuestions()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      errorMessage(err);
+    });
+};
+
+onMounted(() => {
+  getQuestion();
+});
 
 // 方块染色
 const questionColor = (no) => {
@@ -151,8 +168,8 @@ const questionColor = (no) => {
   ) {
     return "bg-sky-500";
   } else if (no === -1) {
-    if (store.getters.getAnswers.hasOwnProperty("BMI")){
-      return "bg-green-400"
+    if (store.getters.getAnswers.hasOwnProperty("BMI")) {
+      return "bg-green-400";
     } else {
       return "bg-gray-300";
     }

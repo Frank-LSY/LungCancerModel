@@ -9,7 +9,7 @@ from rest_framework import status
 class customrenderer(JSONRenderer):
     # 重构render方法
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        print('data:', data)
+        # print('data:', data)
         if renderer_context:
             if isinstance(data, dict):
                 msg = data.pop('message', 'success')

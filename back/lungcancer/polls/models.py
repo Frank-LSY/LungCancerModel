@@ -23,12 +23,8 @@ class Question(models.Model):
     title = models.CharField(max_length=40)
     # 问题id
     questionid = models.CharField(max_length=40, unique=True, primary_key=True)
-
-    # def set_choices(self, x):
-    #     self.choices = json.dumps(x)
-
-    # def get_choices(self):
-    #     return json.loads(self.choices)
+    # 自增id，方便查找
+    id = models.IntegerField(unique=True)
 
 
 # 选项表

@@ -6,8 +6,10 @@
     >
       <img src="@assets/img/zju.png" class="py-3 pl-6" />
     </div>
-    <div class="w-full h-cinquante text-3xl font-bold border-y-4 border-gray-100">
-      <div class="pt-7">肺癌风险预测调查</div>
+    <div
+      class="w-full h-cinquante text-3xl font-bold border-y-4 border-gray-100"
+    >
+      <div class="pt-7" @click="test()">肺癌风险预测调查</div>
     </div>
     <div>
       <router-view
@@ -30,7 +32,14 @@
 import { onBeforeRouteUpdate } from "vue-router";
 import { ref } from "vue";
 
+import { successMessage,errorMessage } from "./assets/js/common";
+
 const transitionName = ref("slide-up");
+
+const test = () => {
+  console.log("test");
+  errorMessage("测试!");
+};
 
 onBeforeRouteUpdate((to, from) => {
   if (to.meta.index > from.meta.index) {
