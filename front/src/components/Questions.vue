@@ -17,122 +17,132 @@
         </div>
       </div>
     </div>
-
-    <div class="h-dix grid grid-cols-4" v-if="num > -2">
-      <div class="col-span-3">
-        <div class="w-full grid grid-cols-8" v-for="i in 2" :key="i">
-          <button
-            v-for="j in 7"
-            :key="j"
-            style="color: rgba(0, 78, 162, 1)"
-            :class="[
-              'font-bold py-1 border-2 border-gray-600',
-              questionColor((i - 1) * 7 + j - 2),
-            ]"
-            @click="num = (i - 1) * 7 + j - 2"
-            :disabled="condition((i - 1) * 7 + j - 2)"
-          >
-            {{ (i - 1) * 7 + j }}
-          </button>
-        </div>
-      </div>
-      <div class="font-bold col-span-1">
-        <div class="flex flex-wrap justify-evenly">
-          <div class="px-2 m-1 bg-gray-300"></div>
-          <div>未填写</div>
-        </div>
-        <div class="flex flex-wrap justify-evenly">
-          <div class="px-2 m-1 bg-green-500"></div>
-          <div>已填写</div>
-        </div>
-        <div class="flex flex-wrap justify-evenly">
-          <div class="px-2 m-1 bg-sky-500"></div>
-          <div>无需填</div>
-        </div>
-      </div>
-    </div>
     <div
-      v-if="num === -2"
+      v-if="num === -1"
       class="text-xl font-bold pt-32 h-quarantecinq flex flex-wrap justify-center content-start"
     >
       <div class="w-3/4 text-justify text-gray-500">
-        问卷分为3部分，共16题。涉及您的基本情况、吸烟情况及检查指标。
+        问卷共14题。涉及您的基本情况、吸烟情况及一些检查指标。
       </div>
       <div
-        @click="num = -1"
+        @click="num += 1"
         class="w-2/3 mt-10 py-1 border-4 border-gray-400 rounded cursor-pointer hover:bg-sky-200"
       >
         开始填写
       </div>
     </div>
-    <div class="h-quarantecinq overflow-y-auto" v-if="num > -2">
-      <question-choose
-        v-if="num >= 0 && num != 10"
-        :title="q.question[num]['title']"
-        :size="q.question[num]['choices'].length"
-        :choices="q.question[num]['choices']"
-        :no="num"
-        :id="q.question[num]['id']"
-      ></question-choose>
-      <question-choose
-        v-if="num === 10"
-        :title="q.question[num]['title']"
-        :size="
-          store.getters.getAnswers[1] === 1
-            ? q.question[num]['choices']['male'].length
-            : q.question[num]['choices']['female'].length
-        "
-        :choices="
-          store.getters.getAnswers[1] === 1
-            ? q.question[num]['choices']['male']
-            : q.question[num]['choices']['female']
-        "
-        :no="num"
-        :id="q.question[num]['id']"
-      ></question-choose>
-      <question-fill v-if="num == -1"></question-fill>
-    </div>
-    <div
-      v-if="num > -2"
-      class="h-cinq flex flex-wrap content-start justify-evenly text-xl font-bold pt-3"
-    >
-      <div
-        v-if="num !== -1"
-        class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
-        @click="prevQuestion"
-      >
-        上一题
+    <div v-if="store.getters.getQuestions.length !== 0">
+      <div class="h-dix grid grid-cols-4" v-if="num > -1">
+        <div class="col-span-3">
+          <div class="w-full grid grid-cols-8" v-for="i in 2" :key="i">
+            <button
+              v-for="j in 7"
+              :key="j"
+              style="color: rgba(0, 78, 162, 1)"
+              :class="[
+                'font-bold py-1 border-2 border-gray-600',
+                questionColor((i - 1) * 7 + j - 1),
+              ]"
+              @click="num = (i - 1) * 7 + j - 1"
+              :disabled="condition((i - 1) * 7 + j - 1)"
+            >
+              {{ (i - 1) * 7 + j }}
+            </button>
+          </div>
+        </div>
+        <div class="font-bold col-span-1">
+          <div class="flex flex-wrap justify-evenly">
+            <div class="px-2 m-1 bg-gray-300"></div>
+            <div>未填写</div>
+          </div>
+          <div class="flex flex-wrap justify-evenly">
+            <div class="px-2 m-1 bg-green-500"></div>
+            <div>已填写</div>
+          </div>
+          <div class="flex flex-wrap justify-evenly">
+            <div class="px-2 m-1 bg-sky-500"></div>
+            <div>无需填</div>
+          </div>
+        </div>
+      </div>
+      <div class="h-quarantecinq overflow-y-auto" v-if="num > -2">
+        <question-choose
+          v-if="num > 0 && num < 11"
+          :title="store.getters.getQuestions[num]['title']"
+          :size="store.getters.getQuestions[num]['choice'].length"
+          :choices="store.getters.getQuestions[num]['choice']"
+          :no="num"
+          :id="store.getters.getQuestions[num]['questionid']"
+        ></question-choose>
+        <question-choose
+          v-if="num === 11"
+          :title="store.getters.getQuestions[num]['title']"
+          :size="store.getters.getQuestions[num]['choice'].length"
+          :choices="
+            store.getters.getAnswers['sex'] === 1
+              ? store.getters.getQuestions[num]['choice']
+              : store.getters.getQuestions[num + 1]['choice']
+          "
+          :no="num"
+          :id="store.getters.getQuestions[num]['questionid']"
+        ></question-choose>
+        <question-choose
+          v-if="num > 11"
+          :title="store.getters.getQuestions[num + 1]['title']"
+          :size="store.getters.getQuestions[num + 1]['choice'].length"
+          :choices="store.getters.getQuestions[num + 1]['choice']"
+          :no="num"
+          :id="store.getters.getQuestions[num + 1]['questionid']"
+        ></question-choose>
+        <question-fill
+          v-if="num == 0"
+          :title="store.getters.getQuestions[num]['title']"
+          :height="store.getters.getQuestions[num]['choice'][0]"
+          :weight="store.getters.getQuestions[num]['choice'][1]"
+        ></question-fill>
       </div>
       <div
-        v-if="num !== q.question.length - 1"
-        class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
-        @click="nextQuestion"
+        v-if="num > -1"
+        class="h-cinq flex flex-wrap content-start justify-evenly text-xl font-bold pt-3"
       >
-        下一题
-      </div>
-      <div
-        v-if="
-          Object.keys(store.getters.getAnswers).length === q.question.length + 1
-        "
-        class="border-4 border-gray-500 rounded px-3 py-2 bg-green-300 cursor-pointer"
-        @click="submit"
-      >
-        完成
+        <div
+          v-if="num !== 0"
+          class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
+          @click="prevQuestion"
+        >
+          上一题
+        </div>
+        <div
+          v-if="num !== store.getters.getQuestions.length - 2"
+          class="border-4 border-gray-500 rounded px-3 py-2 cursor-pointer"
+          @click="nextQuestion"
+        >
+          下一题
+        </div>
+        <div
+          v-if="
+            Object.keys(store.getters.getAnswers).length ===
+            store.getters.getQuestions.length - 1
+          "
+          class="border-4 border-gray-500 rounded px-3 py-2 bg-green-300 cursor-pointer"
+          @click="submit"
+        >
+          完成
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionChoose from "@/questions/QuestionChoose.vue";
 import QuestionFill from "@/questions/QuestionFill.vue";
-import q from "@assets/json/questions14.json";
-import { errorMessage } from "@/assets/js/common";
-import questionAPI from "@/api/question";
+
+import { errorMessage, warningMessage } from "@/assets/js/common";
 
 const store = useStore();
 const router = useRouter();
@@ -141,42 +151,38 @@ const goBack = () => {
   router.push("check");
 };
 
-const getQuestion = () => {
-  questionAPI
-    .getAllQuestions()
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      errorMessage(err);
-    });
-};
-
-onMounted(() => {
-  getQuestion();
-});
-
 // 方块染色
 const questionColor = (no) => {
-  // console.log(no)
-  if ((no === 5 || no === 6) && store.getters.getAnswers["smoking"] === 1) {
-    return "bg-sky-500";
-  } else if (
-    no === 6 &&
-    (store.getters.getAnswers["packYear"] === 1 ||
-      store.getters.getAnswers["packYear"] === 2)
-  ) {
-    return "bg-sky-500";
-  } else if (no === -1) {
-    if (store.getters.getAnswers.hasOwnProperty("BMI")) {
+  // console.log(no);
+  // console.log(question_list.value)
+  if (no < 12) {
+    if ((no === 6 || no === 7) && store.getters.getAnswers["smoking"] === 1) {
+      return "bg-sky-500";
+    } else if (
+      no === 7 &&
+      (store.getters.getAnswers["packYear"] === 1 ||
+        store.getters.getAnswers["packYear"] === 2)
+    ) {
+      return "bg-sky-500";
+    } else if (
+      store.getters.getAnswers.hasOwnProperty(
+        store.getters.getQuestions[no]["questionid"]
+      )
+    ) {
       return "bg-green-400";
     } else {
       return "bg-gray-300";
     }
-  } else if (store.getters.getAnswers.hasOwnProperty(q.question[no]["id"])) {
-    return "bg-green-400";
   } else {
-    return "bg-gray-300";
+    if (
+      store.getters.getAnswers.hasOwnProperty(
+        store.getters.getQuestions[no + 1]["questionid"]
+      )
+    ) {
+      return "bg-green-400";
+    } else {
+      return "bg-gray-300";
+    }
   }
 };
 
@@ -184,7 +190,8 @@ const questionColor = (no) => {
 const num = ref(store.getters.getNum);
 const prevQuestion = () => {
   // console.log(num.value);
-  if (num.value === 7) {
+  // console.log(store.getters.getQuestions[num.value]);
+  if (num.value === 8) {
     if (store.getters.getAnswers["smoking"] === 1) {
       num.value -= 3;
     } else if (
@@ -198,10 +205,11 @@ const prevQuestion = () => {
   }
 };
 const nextQuestion = () => {
-  if (num.value === 4 && store.getters.getAnswers["smoking"] === 1) {
+  // console.log(store.getters.getQuestions[num.value]);
+  if (num.value === 5 && store.getters.getAnswers["smoking"] === 1) {
     num.value += 3;
   } else if (
-    num.value === 5 &&
+    num.value === 6 &&
     (store.getters.getAnswers["packYear"] === 1 ||
       store.getters.getAnswers["packYear"] === 2)
   ) {
@@ -213,7 +221,7 @@ const nextQuestion = () => {
 
 //判断有的题填不填
 const condition = (no) => {
-  if (no === 5) {
+  if (no === 6) {
     // 如果第六题选不吸烟
     if (
       store.getters.getAnswers["smoking"] !== 2 &&
@@ -225,7 +233,7 @@ const condition = (no) => {
     else {
       return false;
     }
-  } else if (no === 6) {
+  } else if (no === 7) {
     // 如果第六题选不吸烟
     if (
       store.getters.getAnswers["smoking"] !== 2 &&
@@ -249,10 +257,13 @@ const condition = (no) => {
 
 const submit = () => {
   // console.log(Object.keys(store.getters.getAnswers).length)
-  if (Object.keys(store.getters.getAnswers).length === q.question.length + 1) {
+  if (
+    Object.keys(store.getters.getAnswers).length ===
+    store.getters.getQuestions.length - 1
+  ) {
     router.push("result");
   } else {
-    alert("请完成全部问题！");
+    warningMessage("请完成全部问题！");
   }
 };
 </script>

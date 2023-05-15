@@ -13,7 +13,7 @@ class QuestionList(generics.ListAPIView):
     """
     获取全部问题列表
     """
-    queryset = Question.objects.all()
+    queryset = Question.objects.all().order_by('id')
     serializer_class = AllQuestionSerializer
 
 
@@ -22,9 +22,11 @@ class QuestionHandle(generics.ListAPIView):
     获取全部问题id
     """
     serializer_class = QuestionHandleSerializer
+    ordering_fields=('questionid','id')
+
 
     def list(self, request):
-        queryset = Question.objects.all()
+        queryset = Question.objects.all().order_by('id')
         serializer = QuestionHandleSerializer(queryset, many=True)
 
         qid = []

@@ -30,7 +30,7 @@ class customrenderer(JSONRenderer):
             #         code = code
 
             ret = {
-                'msg': msg,
+                'message': msg,
                 'code': code,
                 'data': data,
             }

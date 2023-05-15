@@ -18,13 +18,13 @@
         </div>
       </div>
     </div>
-    <div class="w-11/12">
-      <div>
+    <div class="w-11/12" v-if="store.getters.getQuestions.length !== 0">
+      <div class="m-1">
         <div class="font-bold relative">
           1. 您的身高体重
           <button
-            class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600"
-            @click="modify(-1)"
+            class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600 bg-opacity-70"
+            @click="modify(0)"
           >
             修改
           </button>
@@ -52,24 +52,33 @@
       </div>
       <div
         :class="['m-1', colorQuestion(i)]"
-        v-for="(item, i) in q.question"
+        v-for="(item, i) in store.getters.getQuestions"
         :key="i"
       >
-        <div class="font-bold relative">
-          {{ i + 2 + ". " + item.title + showInfo(i) }}
+        <div class="font-bold relative" v-if="i > 0 && i < 12">
+          {{ i + 1 + ". " + item.title + showInfo(i) }}
           <button
-            class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600"
+            class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600 bg-opacity-70"
             @click="modify(i)"
             :disabled="disable(i)"
           >
             修改
           </button>
         </div>
+        <div class="font-bold relative" v-if="i > 12">
+          {{ i + ". " + item.title + showInfo(i) }}
+          <button
+            class="absolute right-0 text-sm text-gray-200 px-1 rounded bg-sky-600 bg-opacity-70"
+            @click="modify(i)"
+          >
+            修改
+          </button>
+        </div>
         <div
-          v-if="i !== 10"
+          v-if="i > 0 && i < 11"
           :class="[
             'grid text-xs font-semibold',
-            'grid-cols-' + item.choices.length,
+            'grid-cols-' + item.choice.length,
           ]"
         >
           <div
@@ -77,17 +86,17 @@
               'border-2 border-l-0 first:border-l-2 border-gray-200',
               colorChoice(i, j),
             ]"
-            v-for="(c, j) in item.choices"
+            v-for="(c, j) in item.choice"
             :key="j"
           >
             {{ c }}
           </div>
         </div>
         <div
-          v-else
+          v-if="i === 11"
           :class="[
             'grid text-xs font-semibold',
-            'grid-cols-' + item.choices.male.length,
+            'grid-cols-' + item.choice.length,
           ]"
         >
           <div
@@ -95,9 +104,27 @@
               'border-2 border-l-0 first:border-l-2 border-gray-200',
               colorChoice(i, j),
             ]"
-            v-for="(c, j) in store.getters.getAnswers[1] === 1
-              ? item.choices.male
-              : item.choices.female"
+            v-for="(c, j) in store.getters.getAnswers['sex'] === 1
+              ? store.getters.getQuestions[11]['choice']
+              : store.getters.getQuestions[12]['choice']"
+            :key="j"
+          >
+            {{ c }}
+          </div>
+        </div>
+        <div
+          v-if="i > 12"
+          :class="[
+            'grid text-xs font-semibold',
+            'grid-cols-' + item.choice.length,
+          ]"
+        >
+          <div
+            :class="[
+              'border-2 border-l-0 first:border-l-2 border-gray-200',
+              colorChoice(i, j),
+            ]"
+            v-for="(c, j) in item.choice"
             :key="j"
           >
             {{ c }}
@@ -111,7 +138,11 @@
     >
       查看预测结果
     </button>
-    <res-dialog @click="showDialog = false" v-if="showDialog" class=" animatecss animatecss-fadeIn"></res-dialog>
+    <res-dialog
+      @click="showDialog = false"
+      v-if="showDialog"
+      class="animatecss animatecss-fadeIn"
+    ></res-dialog>
   </div>
 </template>
 
@@ -120,27 +151,37 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
-import q from "@assets/json/questions14.json";
 import ResDialog from "@components/ResDialog.vue";
 
 const router = useRouter();
 const store = useStore();
 
+// 问题列表
+// const question_list = ref(store.getters.getQuestions);
+
 const modify = (no) => {
+  if (no > 11) {
+    no -= 1;
+  }
+  // console.log(no);
   store.commit("changeNum", no);
   router.push("questions");
 };
 
 // 有的问题不用填，上色
 const colorQuestion = (no) => {
-  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
+  if (
+    store.getters.getAnswers[store.getters.getQuestions[no]["questionid"]] === 0
+  ) {
     return "text-gray-400";
   }
 };
 
 //有的问题不用填，标注
 const showInfo = (no) => {
-  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
+  if (
+    store.getters.getAnswers[store.getters.getQuestions[no]["questionid"]] === 0
+  ) {
     return " (无需填写)";
   } else {
     return "";
@@ -148,7 +189,9 @@ const showInfo = (no) => {
 };
 // 有的问题不用填，不能点
 const disable = (no) => {
-  if (store.getters.getAnswers[q.question[no]["id"]] === 0) {
+  if (
+    store.getters.getAnswers[store.getters.getQuestions[no]["questionid"]] === 0
+  ) {
     return true;
   } else {
     return false;
@@ -159,7 +202,10 @@ const disable = (no) => {
 const colorChoice = (no, choice) => {
   // console.log(no,choice)
   // console.log(store.getters.getAnswers)
-  if (store.getters.getAnswers[q.question[no]["id"]] === choice + 1) {
+  if (
+    store.getters.getAnswers[store.getters.getQuestions[no]["questionid"]] ===
+    choice + 1
+  ) {
     return "bg-green-400";
   } else {
     return;
@@ -168,6 +214,7 @@ const colorChoice = (no, choice) => {
 
 const showDialog = ref(false);
 const showResult = () => {
+  // console.log(store.getters.getAnswers);
   showDialog.value = true;
 };
 </script>

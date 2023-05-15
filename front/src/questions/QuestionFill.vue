@@ -4,10 +4,10 @@
       style="color: rgba(0, 78, 162, 1)"
       class="w-2/3 my-2 py-1 text-xl font-bold"
     >
-      1. 您的身高体重
+      1. {{ props.title }}
     </div>
     <div class="w-2/3 grid grid-cols-5 text-xl font-bold pt-16 pb-5">
-      <div class="col-span-2">您的身高(cm):</div>
+      <div class="col-span-2">{{ props.height }}:</div>
       <input
         placeholder="cm"
         type="number"
@@ -16,7 +16,7 @@
       />
     </div>
     <div class="w-2/3 grid grid-cols-5 text-xl font-bold py-5">
-      <div class="col-span-2">您的体重(kg):</div>
+      <div class="col-span-2">{{ props.weight }}:</div>
       <input
         placeholder="kg"
         type="number"
@@ -37,6 +37,12 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useStore } from "vuex";
+
+const props = defineProps({
+  title: String,
+  height: String,
+  weight: String
+});
 
 const store = useStore();
 const height = ref(store.state.height);

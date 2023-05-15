@@ -61,15 +61,15 @@ const request = function (query) {
                     res.data.code === 1002) { //如果后端说登录被踢了或掉线了
                     // console.log('未登录！')
                     infoMessage('未登录！')
-                    localStorage.removeItem("flag");
-                    localStorage.removeItem("userId");
-                    localStorage.removeItem("userName");
-                    localStorage.removeItem("roleId");
-                    localStorage.removeItem("authList");
-                    store.dispatch("setLoginStatus", false);
-                    router.push({
-                        path: "/dcsp-front",
-                    });
+                    // localStorage.removeItem("flag");
+                    // localStorage.removeItem("userId");
+                    // localStorage.removeItem("userName");
+                    // localStorage.removeItem("roleId");
+                    // localStorage.removeItem("authList");
+                    // store.dispatch("setLoginStatus", false);
+                    // router.push({
+                    //     path: "/dcsp-front",
+                    // });
                     return Promise.reject(res.data)
                 } else { //其他全给拒掉
                     // console.log(res)

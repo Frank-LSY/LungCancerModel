@@ -2,9 +2,10 @@ import { createStore } from 'vuex';
 
 export default createStore({
     state: {
-        num: -2, //第几题
+        num: -1, //第几题
         name: "拖拉机没有司机", //姓名
         phone: "", //电话
+        questions: [], //题目
         answers: {}, //答案
         height: "", //身高
         weight: "", //体重
@@ -19,6 +20,9 @@ export default createStore({
         },
         getPhone: (state) => {
             return state.phone
+        },
+        getQuestions: (state) => {
+            return state.questions
         },
         getAnswers: (state) => {
             return state.answers
@@ -42,6 +46,9 @@ export default createStore({
         },
         changePhone: (state, value) => {
             return state.phone = value
+        },
+        changeQuestions: (state, value) => {
+            return state.questions = value
         },
         changeAnswers: (state, value) => {
             return state.answers[value.name] = value.val

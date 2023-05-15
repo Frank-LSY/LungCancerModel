@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="color: rgba(0, 78, 162, 1)" class="my-2 py-1 text-xl font-bold">
-      {{ props.no + 2 + ". " + props.title }}
+      {{ props.no + 1 + ". " + props.title }}
     </div>
     <div class="flex flex-wrap justify-center">
       <div
@@ -37,7 +37,7 @@ const props = defineProps({
 const changeAnswers = (choice) => {
   // console.log('改！')
   store.commit("changeAnswers", { name: props.id, val: choice });
-  if (props.no === 4) {
+  if (props.no === 5) {
     if (choice === 1) {
       store.commit("changeAnswers", { name: "packYear", val: 0 });
       store.commit("changeAnswers", { name: "smokingIntensity", val: 0 });
@@ -46,14 +46,14 @@ const changeAnswers = (choice) => {
       store.commit("deleteAnswers", "smokingIntensity");
     }
   }
-  if (props.no === 5) {
+  if (props.no === 6) {
     if (choice === 1 || choice === 2) {
       store.commit("changeAnswers", { name: "smokingIntensity", val: 0 });
     } else {
       store.commit("deleteAnswers", "smokingIntensity");
     }
   }
-  // console.log(store.getters.getAnswers);
+  console.log(store.getters.getAnswers);
 };
 
 const setAnswer = (choice) => {
