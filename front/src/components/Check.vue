@@ -1,5 +1,5 @@
 <template>
-  <div class=" w-full h-soixantedix">
+  <div class="w-full h-soixantedix">
     <div class="h-vint overflow-auto">介绍一下这个问卷</div>
     <div
       class="w-full h-quarantecinq overflow-auto flex flex-wrap justify-evenly content-start"
@@ -12,7 +12,8 @@
           <div class="text-lg font-bold">姓名:</div>
           <input
             class="col-span-2 pl-2 font-bold"
-            v-model="name" type="text"
+            v-model="name"
+            type="text"
             placeholder="请输入姓名"
           />
         </div>
@@ -20,7 +21,8 @@
           <div class="text-lg font-bold">电话:</div>
           <input
             class="col-span-2 pl-2 font-bold"
-            v-model="phone" type="number"
+            v-model="phone"
+            type="number"
             placeholder="请输入电话"
           />
         </div>
@@ -53,6 +55,8 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import userAPI from "@/api/user";
+import { errorMessage, infoMessage, successMessage } from "@/assets/js/common";
 
 const store = useStore();
 const router = useRouter();
@@ -62,14 +66,51 @@ const phone = ref(store.state.phone);
 const showAlarm = ref(false);
 const confirm = () => {
   if (name.value !== "" && phone.value !== "") {
-    console.log(name.value, phone.value);
-    store.commit("changeName", name.value);
-    store.commit("changePhone", phone.value);
-    showAlarm.value = false;
-    router.push("questions");
+    userAPI
+      .checkUser({
+        username: name.value,
+        phone: phone.value,
+      })
+      .then((res) => {
+        if (res.data === true) {
+          store.commit("changeName", name.value);
+          store.commit("changePhone", phone.value);
+          infoMessage("老用户!");
+          showAlarm.value = false;
+          router.push("questions");
+        }
+      })
+      .catch((err) => {
+        infoMessage(err);
+        userAPI
+          .createUser({
+            username: name.value,
+            phone: phone.value,
+          })
+          .then((result) => {
+            store.commit("changeName", name.value);
+            store.commit("changePhone", phone.value);
+            successMessage(result.message);
+            router.push("questions");
+          })
+          .catch((error) => {
+            errorMessage(error);
+          });
+        console.log(err);
+      });
   } else {
     showAlarm.value = true;
   }
+
+  // if (name.value !== "" && phone.value !== "") {
+  //   console.log(name.value, phone.value);
+  //   store.commit("changeName", name.value);
+  //   store.commit("changePhone", phone.value);
+  //   showAlarm.value = false;
+  //   router.push("questions");
+  // } else {
+  //   showAlarm.value = true;
+  // }
 };
 
 // 清空内容

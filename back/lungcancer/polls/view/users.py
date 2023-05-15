@@ -42,7 +42,7 @@ class CreateUser(generics.ListAPIView):
             serializer = UserSerializer()
             serializer.create(validated_data=user)
             return Response({
-                'message': "success",
+                'message': "创建成功！",
                 'code': status.HTTP_200_OK
             })
 
@@ -75,5 +75,5 @@ class SearchUser(generics.ListAPIView):
                 'code': status.HTTP_400_BAD_REQUEST})
         else:
             return Response({
-                'message': "请求记录不存在！",
+                'message': "新用户！",
                 'code': status.HTTP_404_NOT_FOUND})
