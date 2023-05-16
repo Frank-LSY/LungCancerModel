@@ -36,8 +36,8 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
-import c2s from "@assets/json/choice2score.json";
-import s2p from "@assets/json/score2Prob5.json";
+import resultsAPI from "@/api/results";
+import { errorMessage } from "@/assets/js/common";
 
 const store = useStore();
 
@@ -52,35 +52,35 @@ const smokeC = ref("");
 
 // 算分
 const calScore = () => {
-  console.log(store.getters.getAnswers);
-  //   答案拿过来
-  var answers = store.getters.getAnswers;
-
-  //   判断吸烟状况
-  if (answers["smoking"] === 1) {
-    smoke.value = "never";
-    smokeC.value = "不吸烟者";
-  } else {
-    if (answers["packYear"] === 3) {
-      smoke.value = "heavy";
-      smokeC.value = "重度吸烟者";
-    } else {
-      smoke.value = "light";
-      smokeC.value = "轻度吸烟者";
-    }
-  }
-
-  for (var id in answers) {
-    // console.log(id, answers[id]);
-    score.value += c2s[smoke.value][id][answers[id]];
-  }
-//   console.log(score.value);
-  prob.value = s2p[smoke.value][score.value];
+  resultsAPI
+    .calcProbability({
+      answers: store.getters.getAnswers,
+      year: "five",
+    })
+    .then((res) => {
+      prob.value = res.data.probability;
+      smoke.value = res.data.smoking;
+      switch (smoke.value) {
+        case "LIGHT":
+          smokeC.value = "轻度吸烟者";
+          break;
+        case "NEVER":
+          smokeC.value = "不吸烟者";
+          break;
+        case "HEAVY":
+          smokeC.value = "重度吸烟者";
+          break;
+      }
+      colorPercent();
+    })
+    .catch((err) => {
+      errorMessage(err);
+    });
 };
 
 // 上色
 const colorPercent = () => {
-//   console.log(prob.value.split("%"));
+  // console.log(prob.value.split("%"));
   if (prob.value.split("%")[0] < 5) {
     risk.value = "低";
     color.value = "text-green-500";
@@ -93,6 +93,5 @@ const colorPercent = () => {
 
 onMounted(() => {
   calScore();
-  colorPercent();
 });
 </script>

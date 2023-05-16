@@ -34,13 +34,23 @@ const routes = [
                 },
             },
             {
+                path: '/history',
+                component: () => import('@components/History.vue'),
+                name: '历史',
+                meta: {
+                    isLogin: false,
+                    title: '用户记录',
+                    index: 2
+                },
+            },
+            {
                 path: '/questions',
                 component: () => import('@components/Questions.vue'),
                 name: '问卷',
                 meta: {
                     isLogin: false,
                     title: '问卷内容',
-                    index: 2
+                    index: 3
                 },
             },
             {
@@ -50,7 +60,7 @@ const routes = [
                 meta: {
                     isLogin: false,
                     title: '问卷结果',
-                    index: 3
+                    index: 4
                 },
             }
         ]

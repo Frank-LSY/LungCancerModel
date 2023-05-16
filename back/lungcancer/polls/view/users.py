@@ -11,7 +11,7 @@ from ..serializer.users import UserSerializer
 
 class CreateUser(generics.ListAPIView):
     """
-    新增用户
+    新增用户，并返回用户id
     """
     serializer_class = UserSerializer
 
@@ -40,22 +40,25 @@ class CreateUser(generics.ListAPIView):
         else:
             user = request.query_params.dict()
             serializer = UserSerializer()
-            serializer.create(validated_data=user)
+            usr = serializer.create(validated_data=user)
+            usr = UserSerializer(usr)
+            # print(usr.data['userid'])
             return Response({
                 'message': "创建成功！",
-                'code': status.HTTP_200_OK
+                'code': status.HTTP_200_OK,
+                'data':usr.data['userid']
             })
 
 
 class SearchUser(generics.ListAPIView):
     """
-    查询是否有某个用户，是返回True，否返回False
+    查询是否有某个用户，是返回用户uuid，否提示新用户
     """
     serializer_class = UserSerializer
 
     def get_queryset(self):
         queryset = User.objects.all()
-        print(self.request.query_params.dict())
+        # print(self.request.query_params.dict())
         username = self.request.query_params.get('username', None)
         phone = self.request.query_params.get('phone', None)
         if username is not None and phone is not None:
@@ -68,7 +71,10 @@ class SearchUser(generics.ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         # print('qset:', queryset)
         if (queryset):
-            return Response(True)
+            serializer = UserSerializer(queryset, many=True)
+            # print(serializer.data[0]['userid'])
+            # 返回userid，用于后面查找和录入
+            return Response(serializer.data[0]['userid'])
         elif (queryset == None):
             return Response({
                 'message': "请输入姓名及电话！",

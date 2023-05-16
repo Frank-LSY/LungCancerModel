@@ -2,6 +2,7 @@ import json
 import uuid
 from django.db import models
 import django_mysql.models
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -72,7 +73,7 @@ class History(models.Model):
     pollid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     # 做题时间
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=now, editable=False)
     # 吸烟状况
     SMOKE_LIST = ('NEVER', "LIGHT", "HEAVY")
     smoke = django_mysql.models.EnumField(choices=SMOKE_LIST)

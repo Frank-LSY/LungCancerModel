@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import User
+from ..models import User, History
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

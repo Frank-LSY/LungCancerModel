@@ -4,7 +4,8 @@ export default createStore({
     state: {
         num: -1, //第几题
         name: "test", //姓名
-        phone: "", //电话
+        phone: 1, //电话
+        userid: "", //用户id
         questions: [], //题目
         answers: {}, //答案
         height: "", //身高
@@ -21,6 +22,9 @@ export default createStore({
         getPhone: (state) => {
             return state.phone
         },
+        getUserid: (state) => {
+            return state.userid
+        },
         getQuestions: (state) => {
             return state.questions
         },
@@ -33,12 +37,12 @@ export default createStore({
         getWeight: (state) => {
             return state.weight
         },
-        getBmi: (state) =>{
+        getBmi: (state) => {
             return state.bmi
         }
     },
     mutations: {
-        changeNum: (state,value) => {
+        changeNum: (state, value) => {
             return state.num = value
         },
         changeName: (state, value) => {
@@ -47,22 +51,25 @@ export default createStore({
         changePhone: (state, value) => {
             return state.phone = value
         },
+        changeUserid: (state, value) => {
+            return state.userid = value
+        },
         changeQuestions: (state, value) => {
             return state.questions = value
         },
         changeAnswers: (state, value) => {
             return state.answers[value.name] = value.val
         },
-        deleteAnswers: (state,value) => {
+        deleteAnswers: (state, value) => {
             return delete state.answers[value]
         },
-        changeHeight: (state,value) => {
+        changeHeight: (state, value) => {
             return state.height = value
         },
-        changeWeight: (state,value) => {
+        changeWeight: (state, value) => {
             return state.weight = value
         },
-        changeBmi: (state,value)=> {
+        changeBmi: (state, value) => {
             return state.bmi = value
         }
     },
