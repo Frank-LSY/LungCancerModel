@@ -6,11 +6,18 @@ export default createStore({
         name: "test", //姓名
         phone: 1, //电话
         userid: "", //用户id
+        pollid: "", //问卷id
         questions: [], //题目
         answers: {}, //答案
         height: "", //身高
         weight: "", //体重
-        bmi: "" //bmi
+        bmi: "", //bmi
+        prob: "", //概率
+        smoke: "", //吸烟
+        detail: {
+            showDialog:false,
+            details: []
+        } //详细信息
     },
     getters: {
         getNum: (state) => {
@@ -24,6 +31,9 @@ export default createStore({
         },
         getUserid: (state) => {
             return state.userid
+        },
+        getPollid: (state) => {
+            return state.pollid
         },
         getQuestions: (state) => {
             return state.questions
@@ -39,6 +49,15 @@ export default createStore({
         },
         getBmi: (state) => {
             return state.bmi
+        },
+        getProb: (state) => {
+            return state.prob
+        },
+        getSmoke: (state) => {
+            return state.smoke
+        },
+        getDetail: (state) => {
+            return state.detail
         }
     },
     mutations: {
@@ -54,8 +73,14 @@ export default createStore({
         changeUserid: (state, value) => {
             return state.userid = value
         },
+        changePollid: (state, value) => {
+            return state.pollid = value
+        },
         changeQuestions: (state, value) => {
             return state.questions = value
+        },
+        changeAnswer: (state, value) => {
+            return state.answers = value
         },
         changeAnswers: (state, value) => {
             return state.answers[value.name] = value.val
@@ -71,6 +96,15 @@ export default createStore({
         },
         changeBmi: (state, value) => {
             return state.bmi = value
+        },
+        changeProb: (state, value) => {
+            return state.prob = value
+        },
+        changeSmoke: (state, value) => {
+            return state.smoke = value
+        },
+        changeDetail: (state, value) => {
+            return state.detail = value
         }
     },
     actions: {

@@ -525,6 +525,7 @@ module.exports = {
       vint: '20vh',
       trente: "30vh",
       quarantecinq: '45vh',
+      soixante: '60vh',
       soixantecinq: '65vh',
       soixantedix: '70vh',
       quatrevintcinq: '85vh',
@@ -550,6 +551,7 @@ module.exports = {
       '2/4': '50%',
       '3/4': '75%',
       '1/6': "16.666667%",
+      '1/24': "4.166667%",
       full: '100%',
     }),
     invert: {

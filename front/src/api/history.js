@@ -6,4 +6,6 @@ export default {
     listHistory: query => get('/polls/history/listHistory', query),
     // 插入用户历史
     addHistory: query => post('/polls/history/addHistory/', query),
+    // 插入历史记录对应细节
+    addDetail:  query => post('/polls/history/addDetail/', query),
 }

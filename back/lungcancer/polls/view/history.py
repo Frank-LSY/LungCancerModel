@@ -1,8 +1,8 @@
 # 历史记录视图
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
-from ..models import History,User
-from ..serializer.history import HistorySerializer
+from ..models import History, User, Detail, Question
+from ..serializer.history import HistorySerializer, DetailSerializer
 
 
 class ListHistory(generics.ListAPIView):
@@ -24,7 +24,7 @@ class ListHistory(generics.ListAPIView):
         else:
             if (len(serializer.data) == 0):
                 return Response({
-                    'message': "该用户无记录！",
+                    'message': "无问卷记录！",
                     'code': status.HTTP_404_NOT_FOUND})
             else:
                 return Response({
@@ -48,7 +48,7 @@ class AddHistory(generics.CreateAPIView):
         history = serializer.create(validated_data={
             'smoke': smoke,
             'probability': probability,
-            'userid': user
+            'userid': user,
         })
         history = HistorySerializer(history)
 
@@ -56,4 +56,32 @@ class AddHistory(generics.CreateAPIView):
             'message': "插入历史记录！",
             'code': status.HTTP_200_OK,
             'data': history.data
+        })
+
+
+class AddDetail(generics.CreateAPIView):
+    """
+    插入历史对应的所有答案细节
+    """
+    serializer_class = DetailSerializer
+
+    def create(self, request, *args, **kwargs):
+        detail = request.data['detail']
+        pollid = request.data['pollid']
+        poll = History.objects.get(pollid=pollid)
+        serializer = DetailSerializer()
+        detail_list = []
+        for k, v in detail.items():
+            question = Question.objects.get(questionid=k)
+            item = serializer.create(validated_data={
+                'pollid': poll,
+                'choice': v,
+                'questionid': question
+            })
+            detail_list.append(DetailSerializer(item).data)
+
+        return Response({
+            'message': "插入历史细节！",
+            'code': status.HTTP_200_OK,
+            'data': detail_list
         })

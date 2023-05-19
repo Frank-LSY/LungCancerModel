@@ -28,6 +28,12 @@
           您的肺癌风险 <span :class="color">{{ risk }}</span>
         </div>
       </div>
+      <div
+        class="absolute right-2 bottom-2 cursor-pointer px-2 rounded text-gray-200 bg-sky-500"
+        @click="router.push('history')"
+      >
+        返回主页
+      </div>
     </div>
   </div>
 </template>
@@ -37,9 +43,11 @@ import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import resultsAPI from "@/api/results";
-import { errorMessage } from "@/assets/js/common";
+import { errorMessage, infoMessage } from "@/assets/js/common";
+import { useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 
 // 分数
 const score = ref(0);
@@ -50,32 +58,43 @@ const color = ref("text-green-500");
 const smoke = ref("");
 const smokeC = ref("");
 
-// 算分
+// 算分，并保存
 const calScore = () => {
-  resultsAPI
-    .calcProbability({
-      answers: store.getters.getAnswers,
-      year: "five",
-    })
-    .then((res) => {
-      prob.value = res.data.probability;
-      smoke.value = res.data.smoking;
-      switch (smoke.value) {
-        case "LIGHT":
-          smokeC.value = "轻度吸烟者";
-          break;
-        case "NEVER":
-          smokeC.value = "不吸烟者";
-          break;
-        case "HEAVY":
-          smokeC.value = "重度吸烟者";
-          break;
-      }
-      colorPercent();
-    })
-    .catch((err) => {
-      errorMessage(err);
-    });
+  if (store.getters.getPollid) {
+    infoMessage("已保存");
+    prob.value = store.getters.getProb;
+    smokeC.value = store.getters.getSmoke;
+    colorPercent();
+  } else {
+    resultsAPI
+      .calcProbability({
+        userid: store.getters.getUserid,
+        answers: store.getters.getAnswers,
+        year: "five",
+      })
+      .then((res) => {
+        prob.value = res.data.probability;
+        smoke.value = res.data.smoking;
+        switch (smoke.value) {
+          case "LIGHT":
+            smokeC.value = "轻度吸烟者";
+            break;
+          case "NEVER":
+            smokeC.value = "不吸烟者";
+            break;
+          case "HEAVY":
+            smokeC.value = "重度吸烟者";
+            break;
+        }
+        colorPercent();
+        store.commit("changePollid", res.data.pollid);
+        store.commit("changeProb", prob.value);
+        store.commit("changeSmoke", smokeC.value);
+      })
+      .catch((err) => {
+        errorMessage(err);
+      });
+  }
 };
 
 // 上色

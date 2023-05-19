@@ -85,7 +85,7 @@ class History(models.Model):
 class Detail(models.Model):
     # 问卷id
     pollid = models.ForeignKey(
-        History, on_delete=models.CASCADE, to_field='pollid')
+        History, on_delete=models.CASCADE, related_name='detail', to_field='pollid')
     # 问题id
     questionid = models.ForeignKey(
         Question, on_delete=models.CASCADE, to_field='questionid')

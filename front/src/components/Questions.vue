@@ -148,7 +148,7 @@ const store = useStore();
 const router = useRouter();
 
 const goBack = () => {
-  router.push("check");
+  router.push("history");
 };
 
 // 方块染色

@@ -2,7 +2,7 @@ from django.urls import path
 from .view.users import SearchUser, CreateUser
 from .view.questions import QuestionList, QuestionHandle, SpecificQuestion
 from .view.results import CalcProbability
-from .view.history import ListHistory, AddHistory
+from .view.history import ListHistory, AddHistory, AddDetail
 
 app_name = 'polls'
 
@@ -16,6 +16,8 @@ urlpatterns = [
     path('history/listHistory/', view=ListHistory.as_view()),
     # 插入一条历史记录
     path('history/addHistory/', view=AddHistory.as_view()),
+    # 插入历史记录对应的细节
+    path('history/addDetail/', view=AddDetail.as_view()),
 
     # 获取全部问题
     path('question/getAllQuestions/', view=QuestionList.as_view()),

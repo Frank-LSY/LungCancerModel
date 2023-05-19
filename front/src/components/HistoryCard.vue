@@ -4,6 +4,7 @@
   >
     <div
       class="absolute cursor-pointer bottom-2 left-2 bg-sky-600 bg-opacity-70 text-gray-100 rounded p-1"
+      @click="showDetail()"
     >
       查看详情
     </div>
@@ -21,6 +22,9 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 const props = defineProps({
   history: Object,
@@ -63,4 +67,19 @@ const calcRisk = () => {
 onMounted(() => {
   calcColor();
 });
+
+// 查看历史详情
+const showDetail = () => {
+  var showDialog = true;
+  var details = props.history.detail;
+  console.log({
+    showDialog: showDialog,
+    details: details,
+  })
+
+  store.commit("changeDetail", {
+    showDialog: showDialog,
+    details: details,
+  });
+};
 </script>

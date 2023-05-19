@@ -75,8 +75,8 @@ const confirm = () => {
         store.commit("changeName", name.value);
         store.commit("changePhone", phone.value);
         store.commit("changeUserid", res.data);
-        console.log(res.data)
-        infoMessage("老用户!");
+        console.log(res.data);
+        // infoMessage("老用户!");
         showAlarm.value = false;
         router.push("history");
       })
@@ -90,7 +90,9 @@ const confirm = () => {
           .then((result) => {
             store.commit("changeName", name.value);
             store.commit("changePhone", phone.value);
-            store.commit("changeUserid", result.data);
+            store.commit("changeUserid", result.data.data);
+            store.commit("changeAnswer", {});
+            console.log(result.data);
             successMessage(result.message);
             router.push("questions");
           })
