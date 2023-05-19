@@ -33,7 +33,13 @@
               </div>
             </div>
           </div>
-          <div v-if="i > 0 && i < 11">
+          <div
+            v-if="
+              i > 0 &&
+              i < 11 &&
+              store.getters.getDetail.details[i]['choice'] !== 0
+            "
+          >
             <div class="font-bold">{{ item.title }}</div>
             <div
               :class="[
@@ -132,6 +138,7 @@ onMounted(() => {
 
 const colorChoice = (no, choice) => {
   // console.log(no,choice)
+  console.log(store.getters.getDetail.details)
   if (store.getters.getDetail.details[no]["choice"] === choice + 1) {
     return "bg-green-400";
   } else {

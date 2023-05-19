@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-vint w-11/12 border-4 border-sky-200 shadow-lg rounded font-semibold my-2"
+    class="relative w-11/12 border-4 border-sky-200 shadow-lg rounded font-semibold my-2"
   >
     <div
       class="absolute cursor-pointer bottom-2 left-2 bg-sky-600 bg-opacity-70 text-gray-100 rounded p-1"

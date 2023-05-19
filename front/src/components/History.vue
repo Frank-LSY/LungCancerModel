@@ -8,7 +8,7 @@
       </div>
       <div
         class="cursor-pointer px-2 text-lg font-bold rounded text-gray-200 bg-sky-500 shadow-lg"
-        @click="router.push('questions')"
+        @click="newPoll()"
       >
         新问卷
       </div>
@@ -47,12 +47,15 @@
     >
       无记录
     </div>
-    <AnswerDialog v-if="store.getters.getDetail.showDialog" class=" animatecss animatecss-fadeIn"></AnswerDialog>
+    <AnswerDialog
+      v-if="store.getters.getDetail.showDialog"
+      class="animatecss animatecss-fadeIn"
+    ></AnswerDialog>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, inject} from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
@@ -85,10 +88,15 @@ const getHistory = () => {
     });
 };
 
+const newPoll = () => {
+  store.commit("changePollid", "");
+  store.commit("changeAnswer", {});
+  router.push("questions");
+};
+
 onMounted(() => {
   getHistory();
 });
 
 const dialog = ref(false);
-
 </script>

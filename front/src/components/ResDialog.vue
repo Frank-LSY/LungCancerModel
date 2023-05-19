@@ -22,7 +22,7 @@
       <div :class="[color, 'text-6xl font-extrabold h-dix']">
         {{ prob }}
       </div>
-      <div class="font-bold h-dix">
+      <div class="font-bold h-dix text-left ml-4">
         <div>您是 {{ smokeC }}</div>
         <div>
           您的肺癌风险 <span :class="color">{{ risk }}</span>
