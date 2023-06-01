@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-soixantedix flex flex-wrap justify-center bg-cyan-100 bg-opacity-50"
+    class=" w-full h-soixantedix flex flex-wrap justify-center bg-cyan-100 bg-opacity-50 relative"
   >
     <div class="w-full h-cinq flex flex-wrap content-center">
       <div class="w-full flex flex-wrap justify-center">
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="w-11/12" v-if="store.getters.getQuestions.length !== 0">
+    <div class="w-11/12 h-soixante overflow-auto" v-if="store.getters.getQuestions.length !== 0">
       <div class="m-1">
         <div class="font-bold relative">
           1. 您的身高体重

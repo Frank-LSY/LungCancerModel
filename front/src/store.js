@@ -3,8 +3,8 @@ import { createStore } from 'vuex';
 export default createStore({
     state: {
         num: -1, //第几题
-        name: "test", //姓名
-        phone: 1, //电话
+        name: "", //姓名
+        phone: "", //电话
         userid: "", //用户id
         pollid: "", //问卷id
         questions: [], //题目

@@ -1,7 +1,7 @@
 <template>
-  <div class="absolute h-soixantedix w-full bg-black bg-opacity-30">
+  <div class="absolute left-0 top-0 h-soixantedix w-full bg-black bg-opacity-30">
     <div
-      class="absolute w-2/3 left-1/6 top-32 h-trente bg-cyan-100 bg-opacity-90 rounded-xl"
+      class="absolute w-2/3 left-1/6 top-32 h-trente bg-cyan-100 bg-opacity-90 rounded-xl shadow-lg"
     >
       <div class="w-full h-dix flex flex-wrap content-center">
         <div class="w-full flex flex-wrap justify-center">

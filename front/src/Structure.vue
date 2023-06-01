@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-sky-50 h-screen w-full">
+  <div class="bg-sky-50 h-screen">
     <div
       class="w-full h-cinquante"
       style="background-color: rgba(0, 78, 162, 1)"
@@ -56,23 +56,24 @@ onBeforeRouteUpdate((to, from) => {
 .slide-up-enter-active,
 .slide-up-leave-active {
   will-change: transform;
-  transition: all 1500ms;
-  position: absolute;
+  transition: all 500ms;
+  position: relative;
 }
 .slide-down-enter-from {
   opacity: 0;
-  transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -10%, 0);
 }
 .slide-down-leave-active {
   opacity: 0;
-  transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 10%, 0);
 }
 .slide-up-enter-from {
   opacity: 0;
-  transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 10%, 0);
 }
 .slide-up-leave-active {
   opacity: 0;
-  transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -10%, 0);
+
 }
 </style>

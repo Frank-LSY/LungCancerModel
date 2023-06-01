@@ -89,6 +89,8 @@ const getHistory = () => {
 };
 
 const newPoll = () => {
+  store.commit("changeHeight","");
+  store.commit("changeWeight","");
   store.commit("changePollid", "");
   store.commit("changeAnswer", {});
   router.push("questions");

@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <div class="flex flex-wrap justify-center bg-gray-300">
+    <router-view class="w-full md:w-full lg:w-1/2 shadow-lg"></router-view>
+  </div>
 </template>
 
 <script>
@@ -11,12 +13,12 @@ import { errorMessage } from "@/assets/js/common";
 export default {
   name: "App",
   setup() {
-    const store = useStore()
+    const store = useStore();
     const getQuestion = () => {
       questionAPI
         .getAllQuestions()
         .then((res) => {
-          store.commit("changeQuestions",res.data)
+          store.commit("changeQuestions", res.data);
           console.log(res.data);
         })
         .catch((err) => {
@@ -24,9 +26,9 @@ export default {
         });
     };
 
-    onBeforeMount(()=> {
-      getQuestion()
-    })
+    onBeforeMount(() => {
+      getQuestion();
+    });
     // return { getQuestion };
   },
 };

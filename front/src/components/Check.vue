@@ -1,6 +1,14 @@
 <template>
-  <div class="w-full h-soixantedix">
-    <div class="h-vint overflow-auto">介绍一下这个问卷</div>
+  <div class=" w-full h-soixantedix">
+    <div class="h-vint overflow-auto flex flex-wrap justify-center">
+      <div class="text-lg font-bold">肺癌风险预测模型</div>
+      <div class="text-xs font-light text-gray-400 w-11/12 text-justify">
+        <span class="text-gray-900 font-normal">模型基于 </span>Wu, X., Wen, C.,
+        Ye, Y. et al. Personalized Risk Assessment in Never, Light, and Heavy
+        Smokers in a prospective cohort in Taiwan. Sci Rep 6, 36482 (2016).
+        https://doi.org/10.1038/srep36482
+      </div>
+    </div>
     <div
       class="w-full h-quarantecinq overflow-auto flex flex-wrap justify-evenly content-start"
     >
@@ -75,7 +83,7 @@ const confirm = () => {
         store.commit("changeName", name.value);
         store.commit("changePhone", phone.value);
         store.commit("changeUserid", res.data);
-        console.log(res.data);
+        // console.log(res.data);
         // infoMessage("老用户!");
         showAlarm.value = false;
         router.push("history");

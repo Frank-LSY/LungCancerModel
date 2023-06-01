@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-soixantedix bg-sky-100 bg-opacity-70">
+  <div class=" w-full h-soixantedix bg-sky-100 bg-opacity-70">
     <div class="flex flex-wrap justify-between w-full h-cinq text-right">
-      <div class="text-lg font-bold ml-2" @click="goBack()">返回</div>
+      <div class="text-lg font-bold ml-2 cursor-pointer" @click="goBack()">返回</div>
       <div class="flex flex-wrap justify-center">
         <Avatar
           :size="25"
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="h-quarantecinq overflow-y-auto" v-if="num > -2">
+      <div class="h-quarantecinq overflow-y-auto" v-if="num > -1">
         <question-choose
           v-if="num > 0 && num < 11"
           :title="store.getters.getQuestions[num]['title']"

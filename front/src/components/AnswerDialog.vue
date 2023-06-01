@@ -3,13 +3,13 @@
     class="absolute w-full h-soixantedix left-0 top-0 bg-black bg-opacity-30"
   >
     <div
-      class="absolute w-11/12 bottom-1 left-1/24 bg-red-500 bg-opacity-70 cursor-pointer text-gray-200 font-bold px-2 rounded z-20 animatecss animatecss-infinite animatecss-fast animatecss-pulse"
+      class="absolute w-11/12 bottom-2 left-1/24 bg-red-500 bg-opacity-70 cursor-pointer text-gray-200 font-bold px-2 rounded z-20 animatecss animatecss-infinite animatecss-fast animatecss-pulse"
       @click="closeDialog()"
     >
       关闭
     </div>
     <div
-      class="overflow-auto absolute top-4 left-1/24 flex flex-wrap justify-center w-11/12 h-soixantecinq bg-cyan-100 bg-opacity-95 rounded z-10"
+      class="overflow-auto shadow-lg absolute top-8 left-1/24 flex flex-wrap justify-center w-11/12 h-soixante bg-cyan-100 bg-opacity-95 rounded z-10"
     >
       <div class="w-11/12">
         <div v-for="(item, i) in questions" :key="i">
@@ -138,7 +138,7 @@ onMounted(() => {
 
 const colorChoice = (no, choice) => {
   // console.log(no,choice)
-  console.log(store.getters.getDetail.details)
+  // console.log(store.getters.getDetail.details)
   if (store.getters.getDetail.details[no]["choice"] === choice + 1) {
     return "bg-green-400";
   } else {
