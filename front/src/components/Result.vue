@@ -1,6 +1,6 @@
 <template>
   <div
-    class=" w-full h-soixantedix flex flex-wrap justify-center bg-cyan-100 bg-opacity-50 relative"
+    class="w-full h-soixantedix flex flex-wrap justify-center bg-cyan-100 bg-opacity-50 relative"
   >
     <div class="w-full h-cinq flex flex-wrap content-center">
       <div class="w-full flex flex-wrap justify-center">
@@ -18,7 +18,10 @@
         </div>
       </div>
     </div>
-    <div class="w-11/12 h-soixante overflow-auto" v-if="store.getters.getQuestions.length !== 0">
+    <div
+      class="w-11/12 py-2 h-soixante overflow-auto"
+      v-if="store.getters.getQuestions.length !== 0"
+    >
       <div class="m-1">
         <div class="font-bold relative">
           1. 您的身高体重
@@ -132,12 +135,15 @@
         </div>
       </div>
     </div>
-    <button
-      class="my-2 w-2/3 rounded text-lg font-bold border-4 border-gray-400 bg-red-300 animatecss animatecss-infinite animatecss-fast animatecss-pulse"
-      @click="showResult()"
-    >
-      查看预测结果
-    </button>
+    <div class="h-cinq w-full">
+      <button
+        class="w-2/3 rounded text-lg font-bold border-4 border-gray-400 bg-red-300 animatecss animatecss-infinite animatecss-fast animatecss-pulse"
+        @click="showResult()"
+      >
+        查看预测结果
+      </button>
+    </div>
+
     <res-dialog
       @click="showDialog = false"
       v-if="showDialog"
@@ -147,7 +153,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
@@ -158,6 +164,13 @@ const store = useStore();
 
 // 问题列表
 // const question_list = ref(store.getters.getQuestions);
+
+onMounted(() => {
+  if (store.getters.getUserid.length === 0) {
+    warningMessage("未记录当前用户信息!");
+    router.push("check");
+  }
+});
 
 const modify = (no) => {
   if (no > 11) {

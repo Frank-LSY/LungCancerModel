@@ -524,6 +524,7 @@ module.exports = {
       cinquante: '15vh',
       vint: '20vh',
       trente: "30vh",
+      trentecinq: "35vh",
       quarantecinq: '45vh',
       soixante: '60vh',
       soixantecinq: '65vh',

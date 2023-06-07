@@ -1,16 +1,21 @@
 <template>
-  <div class=" w-full h-soixantedix">
-    <div class="h-vint overflow-auto flex flex-wrap justify-center">
-      <div class="text-lg font-bold">肺癌风险预测模型</div>
-      <div class="text-xs font-light text-gray-400 w-11/12 text-justify">
-        <span class="text-gray-900 font-normal">模型基于 </span>Wu, X., Wen, C.,
-        Ye, Y. et al. Personalized Risk Assessment in Never, Light, and Heavy
-        Smokers in a prospective cohort in Taiwan. Sci Rep 6, 36482 (2016).
-        https://doi.org/10.1038/srep36482
+  <div class="w-full h-soixantedix">
+    <div class="h-trentecinq overflow-auto flex flex-wrap justify-center">
+      <div class="text-gray-500 w-11/12 text-justify">
+        <p class="py-4">
+          <span class="text-gray-900 font-bold">肺癌 </span
+          >是中国发病率和死亡率最高的癌症。本模型由浙江大学公共卫生学院建立，可供个人及机构评估某个体五年期肺癌的风险。
+        </p>
+        <p class="text-gray-300 py-4">
+          <span class="text-gray-900 font-semibold">模型基于 </span>Wu, X., Wen,
+          C., Ye, Y. et al. Personalized Risk Assessment in Never, Light, and
+          Heavy Smokers in a prospective cohort in Taiwan. Sci Rep 6, 36482
+          (2016). https://doi.org/10.1038/srep36482
+        </p>
       </div>
     </div>
     <div
-      class="w-full h-quarantecinq overflow-auto flex flex-wrap justify-evenly content-start"
+      class="w-full h-trente overflow-auto flex flex-wrap justify-evenly content-start"
     >
       <div class="w-2/3 my-2 text-gray-400 font-semibold text-lg">
         输入姓名及手机号以开始

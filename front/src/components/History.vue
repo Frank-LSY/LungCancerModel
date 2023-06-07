@@ -60,7 +60,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import historyAPI from "@/api/history";
-import { errorMessage } from "@/assets/js/common";
+import { errorMessage, warningMessage } from "@/assets/js/common";
 import HistoryCard from "./HistoryCard.vue";
 import AnswerDialog from "./AnswerDialog.vue";
 
@@ -89,15 +89,20 @@ const getHistory = () => {
 };
 
 const newPoll = () => {
-  store.commit("changeHeight","");
-  store.commit("changeWeight","");
+  store.commit("changeHeight", "");
+  store.commit("changeWeight", "");
   store.commit("changePollid", "");
   store.commit("changeAnswer", {});
   router.push("questions");
 };
 
 onMounted(() => {
-  getHistory();
+  if (store.getters.getUserid.length === 0) {
+    warningMessage("未记录当前用户信息!")
+    router.push("check");
+  } else {
+    getHistory();
+  }
 });
 
 const dialog = ref(false);

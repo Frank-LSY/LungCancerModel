@@ -1,7 +1,9 @@
 <template>
-  <div class=" w-full h-soixantedix bg-sky-100 bg-opacity-70">
+  <div class="w-full h-soixantedix bg-sky-100 bg-opacity-70">
     <div class="flex flex-wrap justify-between w-full h-cinq text-right">
-      <div class="text-lg font-bold ml-2 cursor-pointer" @click="goBack()">返回</div>
+      <div class="text-lg font-bold ml-2 cursor-pointer" @click="goBack()">
+        返回
+      </div>
       <div class="flex flex-wrap justify-center">
         <Avatar
           :size="25"
@@ -135,7 +137,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
@@ -150,6 +152,13 @@ const router = useRouter();
 const goBack = () => {
   router.push("history");
 };
+
+onMounted(() => {
+  if (store.getters.getUserid.length === 0) {
+    warningMessage("未记录当前用户信息!");
+    router.push("check");
+  }
+});
 
 // 方块染色
 const questionColor = (no) => {

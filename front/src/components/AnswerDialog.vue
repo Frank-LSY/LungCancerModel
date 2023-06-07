@@ -11,7 +11,7 @@
     <div
       class="overflow-auto shadow-lg absolute top-8 left-1/24 flex flex-wrap justify-center w-11/12 h-soixante bg-cyan-100 bg-opacity-95 rounded z-10"
     >
-      <div class="w-11/12">
+      <div class="w-11/12 my-2">
         <div v-for="(item, i) in questions" :key="i">
           <div v-if="i === 0">
             <div class="font-bold">{{ item.title }}</div>
