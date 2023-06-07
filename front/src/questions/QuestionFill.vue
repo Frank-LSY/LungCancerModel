@@ -78,4 +78,21 @@ watch(
     store.commit("changeAnswers", { name: "BMI", val: choice });
   }
 );
+watch(
+  () => height.value,
+  () => {
+    store.commit("changeHeight", weight.value);
+    var bmi = calculateBMI();
+    // console.log(bmi);
+    var choice;
+    if (bmi < 25) {
+      choice = 1;
+    } else if (bmi <= 29.9) {
+      choice = 2;
+    } else {
+      choice = 3;
+    }
+    store.commit("changeAnswers", { name: "BMI", val: choice });
+  }
+);
 </script>
