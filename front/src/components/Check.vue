@@ -1,16 +1,19 @@
 <template>
   <div class="w-full h-soixantedix">
-    <div class="h-trentecinq overflow-auto flex flex-wrap justify-center">
+    <div class="h-trentecinq overflow-auto flex flex-wrap justify-center content-center">
       <div class="text-gray-500 w-11/12 text-justify">
-        <p class="py-4">
+        <p class="py-2 text-lg">
           <span class="text-gray-900 font-bold">肺癌 </span
-          >是中国发病率和死亡率最高的癌症。本模型由浙江大学公共卫生学院建立，可供个人及机构评估某个体五年期肺癌的风险。
+          >是中国发病率和死亡率最高的癌症之一。本模型由浙江大学公共卫生学院建立，可供个人及机构评估某个体五年期肺癌的风险。
         </p>
-        <p class="text-gray-300 py-4">
+        <!-- <p class="text-gray-300 py-1">
           <span class="text-gray-900 font-semibold">模型基于 </span>Wu, X., Wen,
           C., Ye, Y. et al. Personalized Risk Assessment in Never, Light, and
           Heavy Smokers in a prospective cohort in Taiwan. Sci Rep 6, 36482
           (2016). https://doi.org/10.1038/srep36482
+        </p> -->
+        <p class="py-1 italic text-gray-400">
+          * 问卷给出的五年期肺癌概率仅供参考，具体请前往正规医疗机构并咨询专业医生。
         </p>
       </div>
     </div>

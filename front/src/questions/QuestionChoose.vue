@@ -53,12 +53,12 @@ const changeAnswers = (choice) => {
       store.commit("deleteAnswers", "smokingIntensity");
     }
   }
-  console.log(store.getters.getAnswers);
+  // console.log(store.getters.getAnswers);
 };
 
 const setAnswer = (choice) => {
   if (store.getters.getAnswers[props.id] === choice) {
-    return "bg-green-400";
+    return "bg-teal-400";
   }
 };
 

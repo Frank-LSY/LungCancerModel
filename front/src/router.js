@@ -45,7 +45,7 @@ const routes = [
             },
             {
                 path: '/questions',
-                component: () => import('@components/Questions.vue'),
+                component: () => import('@components/QuestionOnePage.vue'),
                 name: '问卷',
                 meta: {
                     isLogin: false,
