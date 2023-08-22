@@ -89,7 +89,7 @@
         class="w-11/12 ring-2 ring-orange-200 rounded m-5 p-1.5 shadow-xl hover:shadow-xl hover:shadow-orange-300"
       >
         <div style="color: rgba(0, 78, 162, 1)" class="text-lg font-bold">
-          家族史
+          癌症史/家族史
         </div>
         <div v-for="num in [3, 4]" :key="num">
           <question-temp
@@ -138,16 +138,14 @@
       class="absolute h-cinq top-0 left-1/6 flex flex-wrap justify-evenly content-center border-2 border-t-0 border-orange-200 rounded-sm shadow-lg bg-gray-400 bg-opacity-25 hover:shadow-xl"
     >
       <button
-        :disabled="
-           Object.keys(store.getters.getAnswers).length===0
-        "
+        :disabled="Object.keys(store.getters.getAnswers).length === 0"
         class="rounded text-sm font-semibold px-2 py-0.5 mx-2 border-2 border-red-500 cursor-pointer hover:bg-red-200 hover:bg-opacity-70"
         @click="clear"
       >
         清空
       </button>
       <button
-      :disabled="
+        :disabled="
           Object.keys(store.getters.getAnswers).length !==
           store.getters.getQuestions.length - 2
         "
@@ -156,6 +154,14 @@
       >
         查看结果
       </button>
+    </div>
+    <result-dialog v-if="showDialog"> </result-dialog>
+    <div
+      class="absolute bottom-2 w-2/3 left-1/6 rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
+      v-if="showDialog"
+      @click="showDialog = false"
+    >
+      关闭
     </div>
   </div>
 </template>
@@ -166,7 +172,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionTemp from "@questions/QuestionTemp.vue";
-
+import ResultDialog from "./ResultDialog.vue";
 const store = useStore();
 const router = useRouter();
 
@@ -176,15 +182,16 @@ const goBack = () => {
 
 // 清空
 const clear = () => {
-    weight.value = '';
-    height.value = '';
-    store.commit("changeAnswer", {});
-    console.log(store.getters.getAnswers)
-}
+  weight.value = "";
+  height.value = "";
+  store.commit("changeAnswer", {});
+  console.log(store.getters.getAnswers);
+};
 // 提交
 const submit = () => {
-    console.log('提交!')
-}
+  console.log(store.getters.getAnswers);
+  showDialog.value = true;
+};
 
 // 身高体重相关
 const height = ref(store.state.height);
@@ -230,4 +237,7 @@ watch(
     store.commit("changeAnswers", { name: "BMI", val: choice });
   }
 );
+
+// 是否显示结果
+const showDialog = ref(false);
 </script>
