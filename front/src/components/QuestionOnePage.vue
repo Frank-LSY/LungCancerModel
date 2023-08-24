@@ -145,10 +145,6 @@
         清空
       </button>
       <button
-        :disabled="
-          Object.keys(store.getters.getAnswers).length !==
-          store.getters.getQuestions.length - 2
-        "
         class="rounded text-sm font-semibold px-2 py-0.5 mx-2 border-2 border-sky-700 cursor-pointer hover:bg-sky-200 hover:bg-opacity-70"
         @click="submit"
       >
@@ -157,11 +153,11 @@
     </div>
     <result-dialog v-if="showDialog"> </result-dialog>
     <div
-      class="absolute bottom-2 w-2/3 left-1/6 rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
+      class="absolute bottom-2 w-2/3 left-1/6 h-cinq flex flex-wrap justify-center content-center rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
       v-if="showDialog"
       @click="showDialog = false"
     >
-      关闭
+      <div>关闭</div>
     </div>
   </div>
 </template>
@@ -173,6 +169,7 @@ import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionTemp from "@questions/QuestionTemp.vue";
 import ResultDialog from "./ResultDialog.vue";
+import { infoMessage } from "@/assets/js/common";
 const store = useStore();
 const router = useRouter();
 
@@ -189,8 +186,15 @@ const clear = () => {
 };
 // 提交
 const submit = () => {
-  console.log(store.getters.getAnswers);
-  showDialog.value = true;
+  if (
+    Object.keys(store.getters.getAnswers).length ==
+    store.getters.getQuestions.length - 2
+  ) {
+    console.log(store.getters.getAnswers);
+    showDialog.value = true;
+  } else {
+    infoMessage('请完成所有问题的作答！')
+  }
 };
 
 // 身高体重相关
