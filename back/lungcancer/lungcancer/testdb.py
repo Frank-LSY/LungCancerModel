@@ -55,6 +55,6 @@ def score2prob(request):
         for k, v in json_data.items():
             for key, value in v.items():
                 prob_handle = Probability(
-                    year='ten', smoke=k, point=key, probability=value)
+                    year='five', smoke=k, point=key, probability=value)
                 prob_handle.save()
         return HttpResponse("分数概率插入成功！")

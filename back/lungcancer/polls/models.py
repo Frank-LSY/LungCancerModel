@@ -61,7 +61,7 @@ class Probability(models.Model):
     # 分数
     point = models.IntegerField()
     # 概率
-    probability = models.CharField(max_length=80)
+    probability = models.FloatField()
 
 
 # 历史记录表

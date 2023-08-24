@@ -33,6 +33,8 @@ class CalcProbability(generics.CreateAPIView):
         answers = request.data['answers']
         queryset = self.filter_queryset(self.get_queryset())
         score = 0
+        year = 'five'
+        prob_dict = {}
         for query in queryset.iterator():
             serializer = ScoreSerializer(query)
             for k, v in answers.items():
@@ -40,7 +42,11 @@ class CalcProbability(generics.CreateAPIView):
                     score += serializer.data['score']
                     # print(serializer.data)
 
-        year = request.data['year']
+                    prob_queryset = Probability.objects.filter(
+                        year=year, smoke=self.smoking_status(), point=score)
+                    prob_serializer = ProbabilitySerialzer(prob_queryset, many=True)
+                    prob_dict[k]=prob_serializer.data[0]['probability']
+
         prob_queryset = Probability.objects.filter(
             year=year, smoke=self.smoking_status(), point=score)
         prob_serializer = ProbabilitySerialzer(prob_queryset, many=True)
@@ -73,6 +79,6 @@ class CalcProbability(generics.CreateAPIView):
 
         return Response({
             "smoking": self.smoking_status(),
-            "probability": prob_serializer.data[0]['probability'],
+            "probability": prob_dict,
             "pollid": history.data['pollid']
         })
