@@ -11,7 +11,7 @@
     <div class="text-left ml-2">时间：{{ calcTime() }}</div>
     <div>您的5年期肺癌风险为：</div>
     <div :class="[color, 'text-5xl']">
-      {{ props.history.probability }}
+      {{ props.history.probability }}%
     </div>
     <div class="text-right mr-4">您是 {{ smokeC() }}</div>
     <div class="text-right mr-4">

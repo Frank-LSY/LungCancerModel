@@ -75,10 +75,15 @@
           }}</span>
         </div>
       </div>
-      <!-- <div>
-        {{ prob_dict }}
-      </div> -->
-      <div id="riskChart" class="absolute bottom-2 w-full h-trentecinq"></div>
+      <div class="w-full flex justify-end sm:mt-6">
+        <div class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl">
+          <div class="my-2">您的5年期肺癌预测风险为：</div>
+          <div :class="[color, 'pr-4']">
+            {{ Object.values(prob_dict).pop() }} %
+          </div>
+        </div>
+      </div>
+      <div id="riskChart" class="absolute bottom-0 w-full h-trente"></div>
     </div>
   </div>
 </template>
@@ -109,7 +114,7 @@ const prob = ref([]);
 const prob_dict = ref({});
 var option = {
   title: {
-    text: "各因素致肺癌预测概率贡献",
+    text: "各因素致预测肺癌风险贡献",
     textStyle: {
       color: "#f3f4f6",
     },
@@ -128,7 +133,7 @@ var option = {
         line.value +
         "% <br/> <b>" +
         line.name +
-        "</b> 单因素肺癌风险增值: " +
+        "</b> 单因素致肺癌风险增值: " +
         " : " +
         assis.value +
         "%"
@@ -143,12 +148,11 @@ var option = {
   },
   xAxis: {
     type: "category",
-    boundaryGap: false,
     splitLine: { show: false },
-
+    boundaryGap: true,
     axisLabel: {
       interval: 0,
-      rotate: 30,
+      rotate: 35,
       color: "#f3f4f6",
       fontWeight: "bold",
     },
@@ -156,10 +160,14 @@ var option = {
   yAxis: {
     type: "value",
     min: 0,
+    splitLine: { show: false },
     axisLabel: {
       interval: 0,
       color: "#f3f4f6",
       fontWeight: "bold",
+      formatter: function (value, index) {
+        return value + "%";
+      },
     },
   },
   series: [
@@ -197,10 +205,8 @@ var option = {
         position: "top",
         distance: 10,
         rotate: 30,
-        textStyle: {
-          color: "#fcd34d",
-          fontWeight: "bold",
-        },
+        color: "#fcd34d",
+        fontWeight: "bold",
         formatter: function (params) {
           // console.log(params)
           return params.value + "%";
@@ -224,7 +230,7 @@ const calScore = () => {
     infoMessage("已保存");
     prob_dict.value = store.getters.getProb;
     smokeC.value = store.getters.getSmoke;
-
+    colorPercent();
     var keys = Object.keys(prob_dict.value);
     option.xAxis.data = [];
     keys.forEach((item) => {
@@ -284,7 +290,7 @@ const calScore = () => {
             smokeC.value = "重度吸烟";
             break;
         }
-        // colorPercent();
+        colorPercent();
         store.commit("changePollid", res.data.pollid);
         store.commit("changeProb", res.data.probability);
         store.commit("changeSmoke", smokeC.value);
@@ -298,7 +304,7 @@ const calScore = () => {
 // 上色
 const colorPercent = () => {
   // console.log(prob.value.split("%"));
-  if (prob.value.split("%")[0] < 5) {
+  if (Object.values(prob_dict).pop() < 5) {
     risk.value = "低";
     color.value = "text-green-500";
   } else {
