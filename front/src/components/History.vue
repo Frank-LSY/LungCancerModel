@@ -47,10 +47,10 @@
     >
       无记录
     </div>
-    <AnswerDialog
+    <AnsDialog
       v-if="store.getters.getDetail.showDialog"
       class="animatecss animatecss-fadeIn"
-    ></AnswerDialog>
+    ></AnsDialog>
   </div>
 </template>
 
@@ -62,7 +62,7 @@ import Avatar from "vue-boring-avatars";
 import historyAPI from "@/api/history";
 import { errorMessage, warningMessage } from "@/assets/js/common";
 import HistoryCard from "./HistoryCard.vue";
-import AnswerDialog from "./AnswerDialog.vue";
+import AnsDialog from "./AnsDialog.vue";
 
 const store = useStore();
 const router = useRouter();
@@ -80,6 +80,7 @@ const getHistory = () => {
       userid: store.getters.getUserid,
     })
     .then((res) => {
+      console.log(res.data.data);
       historyList.value = res.data.data;
       cnt.value = res.data.count;
     })
@@ -98,7 +99,7 @@ const newPoll = () => {
 
 onMounted(() => {
   if (store.getters.getUserid.length === 0) {
-    warningMessage("未记录当前用户信息!")
+    warningMessage("未记录当前用户信息!");
     router.push("check");
   } else {
     getHistory();

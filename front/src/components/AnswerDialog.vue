@@ -133,6 +133,7 @@ const getQuestions = () => {
 };
 
 onMounted(() => {
+  console.log(store.getters.getDetail)
   getQuestions();
 });
 

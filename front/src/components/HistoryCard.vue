@@ -10,9 +10,7 @@
     </div>
     <div class="text-left ml-2">时间：{{ calcTime() }}</div>
     <div>您的5年期肺癌风险为：</div>
-    <div :class="[color, 'text-5xl']">
-      {{ props.history.probability }}%
-    </div>
+    <div :class="[color, 'text-5xl']">{{ props.history.probability }}%</div>
     <div class="text-right mr-4">您是 {{ smokeC() }}</div>
     <div class="text-right mr-4">
       您的肺癌风险 <span :class="color">{{ calcRisk() }}</span>
@@ -48,11 +46,11 @@ const calcTime = () => {
 const smokeC = () => {
   switch (props.history.smoke) {
     case "NEVER":
-      return "不吸烟者";
+      return "不吸烟";
     case "LIGHT":
-      return "轻度吸烟者";
+      return "轻度吸烟";
     case "HEAVY":
-      return "重度吸烟者";
+      return "重度吸烟";
   }
 };
 
@@ -75,11 +73,13 @@ const showDetail = () => {
   console.log({
     showDialog: showDialog,
     details: details,
-  })
+    smoke: smokeC(),
+  });
 
   store.commit("changeDetail", {
     showDialog: showDialog,
     details: details,
+    smoke: smokeC(),
   });
 };
 </script>

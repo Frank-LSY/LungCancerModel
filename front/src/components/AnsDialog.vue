@@ -3,6 +3,12 @@
     class="absolute left-0 top-0 h-soixantedix w-full bg-gray-400 bg-opacity-95"
   >
     <div
+      class="absolute bottom-2 w-2/3 left-1/6 h-cinq flex flex-wrap justify-center content-center rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
+      @click="closeDialog()"
+    >
+      关闭
+    </div>
+    <div
       class="absolute w-11/12 top-8 left-1/24 h-soixante bg-teal-500 bg-opacity-50 border-4 border-gray-400 rounded-sm shadow shadow-gray-500"
     >
       <div class="flex flex-wrap justify-evenly font-bold">
@@ -36,7 +42,7 @@
         </div>
         <div class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5">
           <span class="text-gray-100">吸烟情况: </span>
-          <span class="text-amber-300">{{ smokeC }}</span>
+          <span class="text-amber-300">{{ store.getters.getDetail.smoke }}</span>
         </div>
         <div class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5">
           <span class="text-gray-100">癌症史: </span>
@@ -59,7 +65,7 @@
           }}</span>
         </div>
         <div
-          v-for="num in [8, 9, 10, 13, 14]"
+          v-for="num in [8, 9, 10]"
           :key="num"
           class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5 last:w-full last:sm:w-1/2"
         >
@@ -68,18 +74,37 @@
           </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[num]["choice"][
-              store.getters.getAnswers[
-                store.getters.getQuestions[num]["questionid"]
-              ] - 1
+              store.getters.getDetail.details[num]["choice"] - 1
+            ]
+          }}</span>
+        </div>
+        <div
+          v-for="num in [13, 14]"
+          :key="num"
+          class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5 last:w-full last:sm:w-1/2"
+        >
+          <span class="text-gray-100"
+            >{{ ceDict[store.getters.getQuestions[num]["questionid"]] }}:
+          </span>
+          <span class="text-amber-300">{{
+            store.getters.getQuestions[num]["choice"][
+              store.getters.getDetail.details[num - 2]["choice"] - 1
             ]
           }}</span>
         </div>
       </div>
       <div class="w-full flex justify-end sm:mt-6">
-        <div class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl">
+        <div
+          class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl"
+        >
           <div class="my-2">您的5年期肺癌预测风险为：</div>
           <div :class="[color, 'pr-4']">
-            {{ Object.values(prob_dict).pop() }} %
+            {{
+              store.getters.getDetail.details[
+                store.getters.getDetail.details.length - 1
+              ].probability
+            }}
+            %
           </div>
         </div>
       </div>
@@ -90,13 +115,20 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+
 import { useStore } from "vuex";
-import resultsAPI from "@/api/results";
-import { errorMessage, infoMessage } from "@/assets/js/common";
 import * as echarts from "echarts";
 
 const store = useStore();
+
+const questions = ref();
+
+const closeDialog = () => {
+  store.commit("changeDetail", {
+    showDialog: false,
+    details: [],
+  });
+};
 
 // 概率
 
@@ -109,6 +141,7 @@ const smokeC = ref("");
 var chartDom;
 var myChart;
 const qid = ref([]);
+const prob = ref([]);
 const prob_dict = ref({});
 var option = {
   title: {
@@ -169,30 +202,6 @@ var option = {
     },
   },
   series: [
-    // {
-    //   name: "",
-    //   type: "bar",
-    //   stack: "Total",
-    //   itemStyle: {
-    //     borderColor: "transparent",
-    //     color: "transparent",
-    //   },
-    //   emphasis: {
-    //     itemStyle: {
-    //       borderColor: "transparent",
-    //       color: "transparent",
-    //     },
-    //   },
-    // },
-    // {
-    //   name: "",
-    //   type: "bar",
-    //   stack: "Total",
-    //   label: {
-    //     show: true,
-    //     position: "inside",
-    //   },
-    // },
     {
       name: "",
       type: "line",
@@ -224,87 +233,35 @@ var option = {
 
 // 算分，并保存
 const calScore = () => {
-  if (store.getters.getPollid) {
-    infoMessage("已保存");
-    prob_dict.value = store.getters.getProb;
-    console.log(prob_dict.value)
-    smokeC.value = store.getters.getSmoke;
-    colorPercent();
-    var keys = Object.keys(prob_dict.value);
-    console.log(keys)
-    option.xAxis.data = [];
-    keys.forEach((item) => {
-      option.xAxis.data.push(ceDict[item]);
-    });
-
-    // prob.value.pop(0);
-    // prob.value.unshift(0);
-    var prob1 = Object.values(prob_dict.value);
-    var prob2 = [prob1[0]];
-    for (var i = 1; i < prob1.length; i++) {
-      prob2.push((prob1[i] - prob1[i - 1]).toFixed(2));
-    }
-    option.series[0].data = prob1;
-    option.series[1].data = prob2;
-
-    chartDom = document.getElementById("riskChart");
-    myChart = echarts.init(chartDom);
-    option && myChart.setOption(option);
-  } else {
-    resultsAPI
-      .calcProbability({
-        userid: store.getters.getUserid,
-        answers: store.getters.getAnswers,
-      })
-      .then((res) => {
-        // console.log(res.data.probability);
-        prob_dict.value = res.data.probability;
-        var keys = Object.keys(prob_dict.value);
-        console.log(keys)
-        option.xAxis.data = [];
-        keys.forEach((item) => {
-          option.xAxis.data.push(ceDict[item]);
-        });
-        var prob1 = Object.values(prob_dict.value);
-        var prob2 = [prob1[0]];
-        for (var i = 1; i < prob1.length; i++) {
-          prob2.push((prob1[i] - prob1[i - 1]).toFixed(2));
-        }
-        option.series[0].data = prob1;
-        option.series[1].data = prob2;
-
-        chartDom = document.getElementById("riskChart");
-        myChart = echarts.init(chartDom);
-        option && myChart.setOption(option);
-
-        // prob.value = res.data.probability;
-        smoke.value = res.data.smoking;
-        switch (smoke.value) {
-          case "LIGHT":
-            smokeC.value = "轻度吸烟";
-            break;
-          case "NEVER":
-            smokeC.value = "不吸烟";
-            break;
-          case "HEAVY":
-            smokeC.value = "重度吸烟";
-            break;
-        }
-        colorPercent();
-        store.commit("changePollid", res.data.pollid);
-        store.commit("changeProb", res.data.probability);
-        store.commit("changeSmoke", smokeC.value);
-      })
-      .catch((err) => {
-        errorMessage(err);
-      });
+  console.log(store.getters.getDetail.details);
+  //   prob_dict.value = store.getters.getProb;
+  //   smokeC.value = store.getters.getSmoke;
+  colorPercent();
+  option.xAxis.data = [];
+  var prob1 = []
+  store.getters.getDetail.details.forEach((item)=> {
+    option.xAxis.data.push(ceDict[item.questionid])
+    prob1.push(item.probability)
+  })
+  var prob2 = [prob1[0]];
+  for (var i = 1; i < prob1.length; i++) {
+    prob2.push((prob1[i] - prob1[i - 1]).toFixed(2));
   }
+  option.series[0].data = prob1;
+  option.series[1].data = prob2;
+
+  chartDom = document.getElementById("riskChart");
+  myChart = echarts.init(chartDom);
+  option && myChart.setOption(option);
 };
 
 // 上色
 const colorPercent = () => {
-  // console.log(Object.values(prob_dict.value));
-  if (Object.values(prob_dict.value)[Object.values(prob_dict.value).length-1] < 5) {
+  // console.log(prob.value.split("%"));
+  if (
+    store.getters.getDetail.details[store.getters.getDetail.details.length - 1]
+      .probability < 5
+  ) {
     risk.value = "低";
     color.value = "text-green-300";
   } else {
@@ -313,12 +270,6 @@ const colorPercent = () => {
   }
   // console.log(parseInt(prob.split("%")))
 };
-
-onMounted(() => {
-  calScore();
-
-  //   console.log(Object.keys(store.getters.getAnswers));
-});
 
 const ceDict = {
   BMI: "BMI",
@@ -335,4 +286,9 @@ const ceDict = {
   CEA: "CEA (ng/ml)",
   CRP: "CRP (mg/L)",
 };
+
+onMounted(() => {
+  calScore();
+  //   getQuestions();
+});
 </script>

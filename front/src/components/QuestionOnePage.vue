@@ -73,9 +73,9 @@
         class="w-11/12 ring-2 ring-orange-200 rounded m-5 p-1.5 shadow-xl hover:shadow-xl hover:shadow-orange-300"
       >
         <div style="color: rgba(0, 78, 162, 1)" class="text-lg font-bold">
-          吸烟史
+          癌症史/家族史
         </div>
-        <div v-for="num in [5, 6, 7]" :key="num">
+        <div v-for="num in [3, 4]" :key="num">
           <question-temp
             :title="store.getters.getQuestions[num]['title']"
             :size="store.getters.getQuestions[num]['choice'].length"
@@ -89,9 +89,9 @@
         class="w-11/12 ring-2 ring-orange-200 rounded m-5 p-1.5 shadow-xl hover:shadow-xl hover:shadow-orange-300"
       >
         <div style="color: rgba(0, 78, 162, 1)" class="text-lg font-bold">
-          癌症史/家族史
+          吸烟史
         </div>
-        <div v-for="num in [3, 4]" :key="num">
+        <div v-for="num in [5, 6, 7]" :key="num">
           <question-temp
             :title="store.getters.getQuestions[num]['title']"
             :size="store.getters.getQuestions[num]['choice'].length"
@@ -101,6 +101,7 @@
           ></question-temp>
         </div>
       </div>
+
       <div
         class="w-11/12 ring-2 ring-orange-200 rounded m-5 p-1.5 shadow-xl hover:shadow-xl hover:shadow-orange-300"
       >
@@ -193,7 +194,7 @@ const submit = () => {
     console.log(store.getters.getAnswers);
     showDialog.value = true;
   } else {
-    infoMessage('请完成所有问题的作答！')
+    infoMessage("请完成所有问题的作答！");
   }
 };
 
