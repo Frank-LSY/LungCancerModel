@@ -15,7 +15,7 @@ class ListHistory(generics.ListAPIView):
         userid = request.query_params.get('userid', None)
         queryset = History.objects.filter(userid=userid).order_by('-time')
         serializer = HistorySerializer(queryset, many=True)
-        print(serializer.data)
+        # print(serializer.data)
 
         if (userid == None):
             return Response({

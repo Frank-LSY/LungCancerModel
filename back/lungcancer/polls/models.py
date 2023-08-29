@@ -92,3 +92,6 @@ class Detail(models.Model):
 
     # 问题选项
     choice = models.IntegerField()
+
+    # 单选项概率
+    probability = models.FloatField()

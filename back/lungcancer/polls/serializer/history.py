@@ -6,7 +6,8 @@ class DetailListingField(serializers.RelatedField):
     def to_representation(self, value):
         return {
             "questionid": value.questionid_id,
-            "choice": value.choice
+            "choice": value.choice,
+            "probability": value.probability
         }
 
 

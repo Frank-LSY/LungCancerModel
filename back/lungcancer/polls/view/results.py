@@ -44,8 +44,9 @@ class CalcProbability(generics.CreateAPIView):
 
                     prob_queryset = Probability.objects.filter(
                         year=year, smoke=self.smoking_status(), point=score)
-                    prob_serializer = ProbabilitySerialzer(prob_queryset, many=True)
-                    prob_dict[k]=prob_serializer.data[0]['probability']
+                    prob_serializer = ProbabilitySerialzer(
+                        prob_queryset, many=True)
+                    prob_dict[k] = prob_serializer.data[0]['probability']
 
         prob_queryset = Probability.objects.filter(
             year=year, smoke=self.smoking_status(), point=score)
@@ -74,8 +75,8 @@ class CalcProbability(generics.CreateAPIView):
             item = detail_serializer.create(validated_data={
                 'pollid_id': history.data['pollid'],
                 'choice': v,
-                'questionid': question
-            })
+                'questionid': question,
+                'probability': prob_dict[k]})
 
         return Response({
             "smoking": self.smoking_status(),
