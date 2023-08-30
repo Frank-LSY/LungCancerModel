@@ -156,10 +156,7 @@
     <div
       class="absolute bottom-2 w-2/3 left-1/6 h-cinq flex flex-wrap justify-center content-center rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
       v-if="showDialog"
-      @click="
-        showDialog = false;
-        router.push('history');
-      "
+      @click="close()"
     >
       <div>关闭</div>
     </div>
@@ -173,7 +170,7 @@ import { useStore } from "vuex";
 import Avatar from "vue-boring-avatars";
 import QuestionTemp from "@questions/QuestionTemp.vue";
 import ResultDialog from "./ResultDialog.vue";
-import { infoMessage } from "@/assets/js/common";
+import { infoMessage, warningMessage } from "@/assets/js/common";
 const store = useStore();
 const router = useRouter();
 
@@ -231,7 +228,7 @@ watch(
 watch(
   () => height.value,
   () => {
-    store.commit("changeHeight", weight.value);
+    store.commit("changeHeight", height.value);
     var bmi = calculateBMI();
     console.log(bmi);
     var choice;
@@ -249,10 +246,16 @@ watch(
 // 是否显示结果
 const showDialog = ref(false);
 
-onMounted(()=> {
+const close = () => {
+  showDialog.value = false;
+  router.push("history");
+  store.commit("changeAnswer", {});
+};
+
+onMounted(() => {
   if (store.getters.getUserid.length === 0) {
     warningMessage("未记录当前用户信息!");
     router.push("check");
   }
-})
+});
 </script>

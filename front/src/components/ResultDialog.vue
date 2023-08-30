@@ -284,7 +284,6 @@ const calScore = () => {
         myChart = echarts.init(chartDom);
         option && myChart.setOption(option);
 
-        // prob.value = res.data.probability;
         smoke.value = res.data.smoking;
         switch (smoke.value) {
           case "LIGHT":
@@ -310,7 +309,7 @@ const calScore = () => {
 
 // 上色
 const colorPercent = () => {
-  // console.log(Object.values(prob_dict.value));
+
   if (
     Object.values(prob_dict.value)[Object.values(prob_dict.value).length - 1] <
     5
@@ -321,13 +320,12 @@ const colorPercent = () => {
     risk.value = "高";
     color.value = "text-red-500";
   }
-  // console.log(parseInt(prob.split("%")))
+
 };
 
 onMounted(() => {
   calScore();
 
-  //   console.log(Object.keys(store.getters.getAnswers));
 });
 
 const ceDict = {
