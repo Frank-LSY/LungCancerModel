@@ -70,11 +70,11 @@ onMounted(() => {
 const showDetail = () => {
   var showDialog = true;
   var details = props.history.detail;
-  console.log({
-    showDialog: showDialog,
-    details: details,
-    smoke: smokeC(),
-  });
+  // console.log({
+  //   showDialog: showDialog,
+  //   details: details,
+  //   smoke: smokeC(),
+  // });
 
   store.commit("changeDetail", {
     showDialog: showDialog,

@@ -80,7 +80,6 @@ const getHistory = () => {
       userid: store.getters.getUserid,
     })
     .then((res) => {
-      console.log(res.data.data);
       historyList.value = res.data.data;
       cnt.value = res.data.count;
     })

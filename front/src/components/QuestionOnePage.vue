@@ -156,7 +156,10 @@
     <div
       class="absolute bottom-2 w-2/3 left-1/6 h-cinq flex flex-wrap justify-center content-center rounded border-2 font-semibold border-orange-300 bg-red-50 cursor-pointer select-none animatecss animatecss-infinite animatecss-pulse"
       v-if="showDialog"
-      @click="showDialog = false"
+      @click="
+        showDialog = false;
+        router.push('history');
+      "
     >
       <div>关闭</div>
     </div>
@@ -245,4 +248,11 @@ watch(
 
 // 是否显示结果
 const showDialog = ref(false);
+
+onMounted(()=> {
+  if (store.getters.getUserid.length === 0) {
+    warningMessage("未记录当前用户信息!");
+    router.push("check");
+  }
+})
 </script>

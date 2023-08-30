@@ -76,7 +76,9 @@
         </div>
       </div>
       <div class="w-full flex justify-end sm:mt-6">
-        <div class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl">
+        <div
+          class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl"
+        >
           <div class="my-2">您的5年期肺癌预测风险为：</div>
           <div :class="[color, 'pr-4']">
             {{ Object.values(prob_dict).pop() }} %
@@ -97,7 +99,7 @@ import { errorMessage, infoMessage } from "@/assets/js/common";
 import * as echarts from "echarts";
 
 const store = useStore();
-
+const router = useRouter();
 // 概率
 
 const risk = ref("很低");
@@ -122,6 +124,9 @@ var option = {
     axisPointer: {
       type: "cross",
     },
+    position: [45, 22],
+    textStyle: { fontSize: 10 },
+
     formatter: function (params) {
       var line = params[0];
       var assis = params[1];
@@ -133,7 +138,9 @@ var option = {
         line.name +
         "</b> 单因素致肺癌风险增值: " +
         " : " +
+        (assis.value > 0 ? '<span style="color:red">' : "") +
         assis.value +
+        (assis.value > 0 ? "</span>" : "") +
         "%"
       );
     },
@@ -227,11 +234,11 @@ const calScore = () => {
   if (store.getters.getPollid) {
     infoMessage("已保存");
     prob_dict.value = store.getters.getProb;
-    console.log(prob_dict.value)
+    console.log(prob_dict.value);
     smokeC.value = store.getters.getSmoke;
     colorPercent();
     var keys = Object.keys(prob_dict.value);
-    console.log(keys)
+    console.log(keys);
     option.xAxis.data = [];
     keys.forEach((item) => {
       option.xAxis.data.push(ceDict[item]);
@@ -260,7 +267,7 @@ const calScore = () => {
         // console.log(res.data.probability);
         prob_dict.value = res.data.probability;
         var keys = Object.keys(prob_dict.value);
-        console.log(keys)
+        console.log(keys);
         option.xAxis.data = [];
         keys.forEach((item) => {
           option.xAxis.data.push(ceDict[item]);
@@ -304,7 +311,10 @@ const calScore = () => {
 // 上色
 const colorPercent = () => {
   // console.log(Object.values(prob_dict.value));
-  if (Object.values(prob_dict.value)[Object.values(prob_dict.value).length-1] < 5) {
+  if (
+    Object.values(prob_dict.value)[Object.values(prob_dict.value).length - 1] <
+    5
+  ) {
     risk.value = "低";
     color.value = "text-green-300";
   } else {
@@ -328,7 +338,7 @@ const ceDict = {
   lung: "家族史",
   smoking: "吸烟状态",
   packYear: "年吸烟量",
-  smokingIntensity: "每天吸烟",
+  smokingIntensity: "日吸烟量",
   MMEF: "MMEF (ml/sec)",
   FEV1: "FEV1 (%)",
   AFP: "AFP (ng/ml)",

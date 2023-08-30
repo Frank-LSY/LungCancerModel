@@ -11,16 +11,17 @@
     <div
       class="absolute w-11/12 top-8 left-1/24 h-soixante bg-teal-500 bg-opacity-50 border-4 border-gray-400 rounded-sm shadow shadow-gray-500"
     >
-      <div class="flex flex-wrap justify-evenly font-bold">
+      <div
+        class="flex flex-wrap justify-evenly font-bold"
+        v-if="sorted_details.length !== 0"
+      >
         <div class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5">
           <span class="text-gray-100"
             >{{ store.getters.getQuestions[0]["title"] }}:
           </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[0]["choice"][
-              store.getters.getAnswers[
-                store.getters.getQuestions[0]["questionid"]
-              ] + 1
+              sorted_details[0]["choice"] + 1
             ]
           }}</span>
         </div>
@@ -34,23 +35,21 @@
           </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[num]["choice"][
-              store.getters.getAnswers[
-                store.getters.getQuestions[num]["questionid"]
-              ] - 1
+              sorted_details[num]["choice"] - 1
             ]
           }}</span>
         </div>
         <div class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5">
           <span class="text-gray-100">吸烟情况: </span>
-          <span class="text-amber-300">{{ store.getters.getDetail.smoke }}</span>
+          <span class="text-amber-300">{{
+            store.getters.getDetail.smoke
+          }}</span>
         </div>
         <div class="w-1/2 sm:w-1/4 text-left pl-2 my-0.5">
           <span class="text-gray-100">癌症史: </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[3]["choice"][
-              store.getters.getAnswers[
-                store.getters.getQuestions[3]["questionid"]
-              ] - 1
+              sorted_details[3]["choice"] - 1
             ]
           }}</span>
         </div>
@@ -58,9 +57,7 @@
           <span class="text-gray-100">家族史: </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[4]["choice"][
-              store.getters.getAnswers[
-                store.getters.getQuestions[4]["questionid"]
-              ] - 1
+              sorted_details[4]["choice"] - 1
             ]
           }}</span>
         </div>
@@ -74,7 +71,7 @@
           </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[num]["choice"][
-              store.getters.getDetail.details[num]["choice"] - 1
+              sorted_details[num]["choice"] - 1
             ]
           }}</span>
         </div>
@@ -88,22 +85,21 @@
           </span>
           <span class="text-amber-300">{{
             store.getters.getQuestions[num]["choice"][
-              store.getters.getDetail.details[num - 2]["choice"] - 1
+              sorted_details[num - 2]["choice"] - 1
             ]
           }}</span>
         </div>
       </div>
-      <div class="w-full flex justify-end sm:mt-6">
+      <div
+        class="w-full flex justify-end sm:mt-6"
+        v-if="sorted_details.length !== 0"
+      >
         <div
           class="w-2/3 sm:w-1/2 border-2 border-gray-200 shadow-xl rounded bg-gray-50 bg-opacity-10 text-right mr-2 text-lg font-bold hover:shadow-2xl"
         >
           <div class="my-2">您的5年期肺癌预测风险为：</div>
           <div :class="[color, 'pr-4']">
-            {{
-              store.getters.getDetail.details[
-                store.getters.getDetail.details.length - 1
-              ].probability
-            }}
+            {{ sorted_details[sorted_details.length - 1].probability }}
             %
           </div>
         </div>
@@ -121,8 +117,6 @@ import * as echarts from "echarts";
 
 const store = useStore();
 
-const questions = ref();
-
 const closeDialog = () => {
   store.commit("changeDetail", {
     showDialog: false,
@@ -134,15 +128,11 @@ const closeDialog = () => {
 
 const risk = ref("很低");
 const color = ref("text-green-500");
-const smoke = ref("");
-const smokeC = ref("");
 
 // 作图需要
 var chartDom;
 var myChart;
-const qid = ref([]);
-const prob = ref([]);
-const prob_dict = ref({});
+
 var option = {
   title: {
     text: "各因素致预测肺癌风险贡献",
@@ -155,6 +145,8 @@ var option = {
     axisPointer: {
       type: "cross",
     },
+    position: [45, 22],
+    textStyle: { fontSize: 10 },
     formatter: function (params) {
       var line = params[0];
       var assis = params[1];
@@ -166,7 +158,9 @@ var option = {
         line.name +
         "</b> 单因素致肺癌风险增值: " +
         " : " +
+        (assis.value > 0 ? '<span style="color:red">' : "") +
         assis.value +
+        (assis.value > 0 ? "</span>" : "") +
         "%"
       );
     },
@@ -231,18 +225,22 @@ var option = {
   ],
 };
 
+const sorted_details = ref([]);
+
 // 算分，并保存
 const calScore = () => {
-  console.log(store.getters.getDetail.details);
-  //   prob_dict.value = store.getters.getProb;
-  //   smokeC.value = store.getters.getSmoke;
+  var tmp_list = Object.keys(ceDict);
+  sorted_details.value = tmp_list.map((value) =>
+    store.getters.getDetail.details.find((obj) => obj.questionid === value)
+  );
+
   colorPercent();
   option.xAxis.data = [];
-  var prob1 = []
-  store.getters.getDetail.details.forEach((item)=> {
-    option.xAxis.data.push(ceDict[item.questionid])
-    prob1.push(item.probability)
-  })
+  var prob1 = [];
+  sorted_details.value.forEach((item) => {
+    option.xAxis.data.push(ceDict[item.questionid]);
+    prob1.push(item.probability);
+  });
   var prob2 = [prob1[0]];
   for (var i = 1; i < prob1.length; i++) {
     prob2.push((prob1[i] - prob1[i - 1]).toFixed(2));
@@ -279,7 +277,7 @@ const ceDict = {
   lung: "家族史",
   smoking: "吸烟状态",
   packYear: "年吸烟量",
-  smokingIntensity: "每天吸烟",
+  smokingIntensity: "日吸烟量",
   MMEF: "MMEF (ml/sec)",
   FEV1: "FEV1 (%)",
   AFP: "AFP (ng/ml)",
@@ -289,6 +287,5 @@ const ceDict = {
 
 onMounted(() => {
   calScore();
-  //   getQuestions();
 });
 </script>
